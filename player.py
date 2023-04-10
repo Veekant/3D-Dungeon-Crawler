@@ -1,6 +1,8 @@
 from math import *
 from cmu_graphics import *
 
+# rotation formula from https://lodev.org/cgtutor/raycasting.html
+
 class player:
     speed = 5
     lookSpeed = 1

@@ -4,6 +4,9 @@ minimap implementation
 
 from cmu_graphics import *
 
+# a lot of the following code is taken from CS Academy
+# specifically, the Tetris assignment
+
 class minimap:
 
     def __init__(self, map, player, left, top, width, height):
