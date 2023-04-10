@@ -1,4 +1,5 @@
 from math import *
+from cmu_graphics import *
 
 class player:
     speed = 5

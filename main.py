@@ -2,22 +2,17 @@ from cmu_graphics import *
 import renderGame
 import load
 import player
+import minimap
 
 def onAppStart(app):
     app.width, app.height = 1920, 1080
     app.stepsPerSecond = 60
     app.map = load.loadMap("map1")
-    app.player = player.player((50, 50), 0, 90)
+    app.player = player.player((0, 0), 0, 90)
+    app.minimap = minimap.minimap(app.map, app.player, app.width-300, app.height-300, 300, 300)
 
 def redrawAll(app):
-    drawCircle(app.player.x, app.player.y, 10)
-    dirX, dirY = app.player.x + 35 * app.player.dirX, app.player.y + 35 * app.player.dirY
-    drawLine(app.player.x, app.player.y, dirX, dirY)
-    drawLine(dirX, dirY, dirX + 35 * app.player.planeX, dirY + 35 * app.player.planeY)
-    drawLine(dirX, dirY, dirX - 35 * app.player.planeX, dirY - 35 * app.player.planeY)
-
-    drawLine(app.player.x, app.player.y, dirX + 35 * app.player.planeX, dirY + 35 * app.player.planeY)
-    drawLine(app.player.x, app.player.y, dirX - 35 * app.player.planeX, dirY - 35 * app.player.planeY)
+    app.minimap.drawMap()
 
 def onStep(app):
     pass
@@ -34,10 +29,10 @@ def onKeyPress(app, key):
 def onKeyHold(app, keys):
     if 'q' in keys: app.player.rotate(0.1)
     elif 'e' in keys: app.player.rotate(-0.1)
-    elif 'w' in keys: app.player.move(0, -10)
-    elif 'a' in keys: app.player.move(-10, 0)
-    elif 's' in keys: app.player.move(0, 10)
-    elif 'd' in keys: app.player.move(10, 0)
+    elif 'w' in keys: app.player.move(0, -1/15)
+    elif 'a' in keys: app.player.move(-1/15, 0)
+    elif 's' in keys: app.player.move(0, 1/15)
+    elif 'd' in keys: app.player.move(1/15, 0)
 
 
 def main():
