@@ -10,12 +10,14 @@ def onAppStart(app):
     app.player = player.player((50, 50), 0, 90)
 
 def redrawAll(app):
-    renderGame.render(app)
     drawCircle(app.player.x, app.player.y, 10)
-    dirX, dirY = app.player.x + 20 * app.player.dirX, app.player.y + 20 * app.player.dirY
+    dirX, dirY = app.player.x + 35 * app.player.dirX, app.player.y + 35 * app.player.dirY
     drawLine(app.player.x, app.player.y, dirX, dirY)
-    drawLine(dirX, dirY, dirX + 20 * app.player.planeX, dirY + 20 * app.player.planeY)
-    drawLine(dirX, dirY, dirX - 20 * app.player.planeX, dirY - 20 * app.player.planeY)
+    drawLine(dirX, dirY, dirX + 35 * app.player.planeX, dirY + 35 * app.player.planeY)
+    drawLine(dirX, dirY, dirX - 35 * app.player.planeX, dirY - 35 * app.player.planeY)
+
+    drawLine(app.player.x, app.player.y, dirX + 35 * app.player.planeX, dirY + 35 * app.player.planeY)
+    drawLine(app.player.x, app.player.y, dirX - 35 * app.player.planeX, dirY - 35 * app.player.planeY)
 
 def onStep(app):
     pass
