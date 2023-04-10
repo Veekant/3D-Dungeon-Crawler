@@ -1,6 +1,7 @@
 '''
 minimap implementation
 '''
+
 from cmu_graphics import *
 
 class minimap:
@@ -48,7 +49,7 @@ class minimap:
              borderWidth=self.borderWidth)
         
     def drawPlayer(self):
-        scale = 10
+        scale = 0.05 * self.width
         posX, posY = self.getPlayerPos()
         dirPlaneX, dirPlaneY = posX + scale * self.player.dirX, posY + scale * self.player.dirY
         planeLX, planeLY = dirPlaneX - scale * self.player.planeX, dirPlaneY - scale * self.player.planeY
