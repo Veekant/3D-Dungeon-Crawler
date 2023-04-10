@@ -7,13 +7,14 @@ this file will handle loading the map, images, and sounds
 def loadMap(mapID):
     map = []
     fileName = 'levels/' + mapID + '.txt'
-    mapText = open(fileName, 'r')
-    for rowText in mapText:
+    mapFile = open(fileName, 'r')
+    for rowText in mapFile:
         textRow = rowText.strip().split()
         mapRow = []
         for i in range(len(textRow)):
             mapRow.append(int(textRow[i]))
         map.append(mapRow)
+    mapFile.close()
     rows = len(map)
     cols = len(map[0])
     return map
