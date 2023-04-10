@@ -9,7 +9,10 @@ def loadMap(mapID):
     fileName = 'levels/' + mapID + '.txt'
     mapText = open(fileName, 'r')
     for rowText in mapText:
-        mapRow = rowText.strip().split()
+        textRow = rowText.strip().split()
+        mapRow = []
+        for i in range(len(textRow)):
+            mapRow.append(int(textRow[i]))
         map.append(mapRow)
     rows = len(map)
     cols = len(map[0])
