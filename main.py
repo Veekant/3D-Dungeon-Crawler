@@ -3,12 +3,13 @@ import renderGame
 import load
 import player
 import minimap
+import math
 
 def onAppStart(app):
     app.width, app.height = 1920, 1080
-    app.stepsPerSecond = 30
+    app.stepsPerSecond = 60
     app.map = load.loadMap("map1")
-    app.player = player.player((1.5, 1.5), 0, 90)
+    app.player = player.player((3, 6), math.pi/2, 90)
     app.minimap = minimap.minimap(app.map, app.player, app.width-300, app.height-300, 300, 300)
 
 def redrawAll(app):
