@@ -7,15 +7,15 @@ import math
 # raycasting algorithms from https://lodev.org/cgtutor/raycasting.html
 resolution = 8
 
-def render(app, width, height, player, map):
+def render(width, height, player, map):
     for x in range(0, width, resolution):
         adjX = (2 * x / width) - 1
         rayDirX = player.dirX + adjX * player.planeX
         rayDirY = player.dirY + adjX * player.planeY
-        dist, side = rayCast(app, rayDirX, rayDirY, player, map)
+        dist, side = rayCast(rayDirX, rayDirY, player, map)
         drawVertLine(x, dist, side, height)
 
-def rayCast(app, rayDirX, rayDirY, player, map):
+def rayCast(rayDirX, rayDirY, player, map):
     posX, posY = player.x, player.y
     mapX, mapY = int(posX), int(posY)
     deltaDistX = math.inf if rayDirX == 0 else abs(1 / rayDirX)
@@ -26,7 +26,7 @@ def rayCast(app, rayDirX, rayDirY, player, map):
     side = 0
     hit = False
     while (not hit):
-        if totalDistX > totalDistY:
+        if totalDistX >= totalDistY:
             mapY += stepY
             totalDistY += deltaDistY
             side = 1

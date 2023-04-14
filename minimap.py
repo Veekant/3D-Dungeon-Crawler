@@ -55,18 +55,18 @@ class minimap:
         scale = 0.05 * self.width
         posX, posY = self.getPlayerPos()
         dirPlaneX, dirPlaneY = posX + scale * self.player.dirX, posY + scale * self.player.dirY
-        planeLX, planeLY = dirPlaneX - scale * self.player.planeX, dirPlaneY - scale * self.player.planeY
-        planeRX, planeRY = dirPlaneX + scale * self.player.planeX, dirPlaneY + scale * self.player.planeY
+        # planeLX, planeLY = dirPlaneX - scale * self.player.planeX, dirPlaneY - scale * self.player.planeY
+        # planeRX, planeRY = dirPlaneX + scale * self.player.planeX, dirPlaneY + scale * self.player.planeY
 
         drawCircle(posX, posY, 0.5*scale)
 
         drawLine(posX, posY, dirPlaneX, dirPlaneY)
 
-        drawLine(dirPlaneX, dirPlaneY, planeLX, planeLY)
-        drawLine(dirPlaneX, dirPlaneY, planeRX, planeRY)
+        # drawLine(dirPlaneX, dirPlaneY, planeLX, planeLY)
+        # drawLine(dirPlaneX, dirPlaneY, planeRX, planeRY)
 
-        drawLine(posX, posY, planeLX, planeLY)
-        drawLine(posX, posY, planeRX, planeRY)
+        # drawLine(posX, posY, planeLX, planeLY)
+        # drawLine(posX, posY, planeRX, planeRY)
         
     def drawMap(self):
         for row in range(self.rows):
