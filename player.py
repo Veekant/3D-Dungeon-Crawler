@@ -11,7 +11,7 @@ class player:
         self.x = location[0]
         self.y = location[1]
 
-        self.dirX = cos(dir)
+        self.dirX = -cos(dir)
         self.dirY = sin(dir)
 
         a = tan(radians(fov / 2))

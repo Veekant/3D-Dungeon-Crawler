@@ -50,7 +50,7 @@ class minimap:
         drawRect(tileLeft, tileTop, tileWidth, tileHeight,
              fill=color, border='black',
              borderWidth=self.borderWidth)
-        
+
     def drawPlayer(self):
         scale = 0.05 * self.width
         posX, posY = self.getPlayerPos()
