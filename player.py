@@ -11,17 +11,12 @@ class player:
         self.x = location[0]
         self.y = location[1]
 
-        #self.dirX = cos(dir)
-        #self.dirY = sin(dir)
-        self.dirX = -1
-        self.dirY = 0
+        self.dirX = cos(dir)
+        self.dirY = sin(dir)
 
-        self.planeX = 0
-        self.planeY = 0.66
-
-        #a = tan(radians(fov / 2))
-        #self.planeX = -a * self.dirY
-        #self.planeY = a * self.dirX
+        a = tan(radians(fov / 2))
+        self.planeX = a * self.dirY
+        self.planeY = -a * self.dirX
 
     def __str__(self):
         return (f"Player at ({self.x},{self.y}) " +
@@ -40,6 +35,6 @@ class player:
 
     def move(self, dx, dy):
         moveX = -dx * self.dirY - dy * self.dirX
-        moveY = dx * self.dirX - dy * self.dirY
+        moveY = dx * self.dirX - dy * self.dirY 
         self.x += moveX
         self.y += moveY
