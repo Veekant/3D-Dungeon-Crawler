@@ -6,8 +6,13 @@ import math
 
 # raycasting algorithms from https://lodev.org/cgtutor/raycasting.html
 resolution = 8
+wallColors = ['gray', 'darkGray']
+ceilingColor = 'dimGray'
+floorColor = rgb(186, 140, 99)
 
 def render(width, height, player, map):
+    drawRect(0, 0, width, height//2, fill=ceilingColor)
+    drawRect(0, height//2, width, height, fill=floorColor)
     for x in range(0, width, resolution):
         adjX = (2 * x / width) - 1
         rayDirX = player.dirX + adjX * player.planeX
@@ -47,5 +52,5 @@ def drawVertLine(x, dist, side, height):
     lineHeight = int(height/dist)
     top = max(-lineHeight/2 + height/2, 0)
     bottom = min(lineHeight/2 + height/2, height)
-    color = 'blue' if side==0 else 'mediumBlue'
+    color = wallColors[side]
     drawLine(x, top, x, bottom, fill=color, lineWidth=resolution)
