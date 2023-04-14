@@ -35,8 +35,8 @@ class minimap:
     
     def getPlayerPos(self):
         tileWidth, tileHeight = self.getTileSize()
-        playerX = self.left + self.player.x * tileWidth
-        playerY = self.top + self.player.y * tileHeight
+        playerX = self.left + self.player.y * tileWidth
+        playerY = self.top + self.player.x * tileHeight
         return (playerX, playerY)
     
     def drawBorder(self):
@@ -54,7 +54,7 @@ class minimap:
     def drawPlayer(self):
         scale = 0.05 * self.width
         posX, posY = self.getPlayerPos()
-        dirPlaneX, dirPlaneY = posX + scale * self.player.dirX, posY + scale * self.player.dirY
+        dirPlaneX, dirPlaneY = posX + scale * self.player.dirY, posY + scale * self.player.dirX
         # planeLX, planeLY = dirPlaneX - scale * self.player.planeX, dirPlaneY - scale * self.player.planeY
         # planeRX, planeRY = dirPlaneX + scale * self.player.planeX, dirPlaneY + scale * self.player.planeY
 
