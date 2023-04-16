@@ -17,26 +17,21 @@ class minimap:
         self.top = top
         self.width = width
         self.height = height
+        self.tileWidth = self.width / self.cols
+        self.tileHeight = self.height / self.rows
         self.borderWidth = 1
 
     def __str__(self):
         return f"map at ({self.left, self.top} with {self.rows} rows and {self.cols} cols)"
     
-    def getTileSize(self):
-        tileWidth = self.width / self.cols
-        tileHeight = self.height / self.rows
-        return (tileWidth, tileHeight)
-    
     def getTileCorner(self, row, col):
-        tileWidth, tileHeight = self.getTileSize()
-        tileLeft = self.left + col * tileWidth
-        tileTop = self.top + row * tileHeight
+        tileLeft = self.left + col * self.tileWidth
+        tileTop = self.top + row * self.tileHeight
         return (tileLeft, tileTop)
     
     def getPlayerPos(self):
-        tileWidth, tileHeight = self.getTileSize()
-        playerX = self.left + self.player.y * tileWidth
-        playerY = self.top + self.player.x * tileHeight
+        playerX = self.left + self.player.y * self.tileWidth
+        playerY = self.top + self.player.x * self.tileHeight
         return (playerX, playerY)
     
     def drawBorder(self):
@@ -46,8 +41,7 @@ class minimap:
         
     def drawTile(self, row, col, color):
         tileLeft, tileTop = self.getTileCorner(row, col)
-        tileWidth, tileHeight = self.getTileSize()
-        drawRect(tileLeft, tileTop, tileWidth, tileHeight,
+        drawRect(tileLeft, tileTop, self.tileWidth, self.tileHeight,
              fill=color, border='black',
              borderWidth=self.borderWidth)
 
