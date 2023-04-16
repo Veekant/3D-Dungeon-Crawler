@@ -1,0 +1,3 @@
+'''
+handle global settings stuff
+'''
