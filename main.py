@@ -18,10 +18,9 @@ def onAppStart(app):
 def redrawAll(app):
     startTime = time.time()
     renderGame.render(app.width, app.height, app.player, app.map)
-    app.minimap.drawMap()
+    # app.minimap.drawMap()
     endTime = time.time()
     print(endTime - startTime)
-
 def onStep(app):
     # print(app.player)
     pass

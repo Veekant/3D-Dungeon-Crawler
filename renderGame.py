@@ -5,7 +5,8 @@ from cmu_graphics import *
 import math
 
 # raycasting algorithms from https://lodev.org/cgtutor/raycasting.html
-resolution = 10
+resolution = 8
+maxViewDistance = 150
 wallColors = ['slateGray', 'lightSlateGray']
 ceilingColor = 'dimGray'
 floorColor = rgb(186, 140, 99)
@@ -48,7 +49,7 @@ def sign(num):
     else: return 1
 
 def drawVertLine(x, dist, side, height):
-    lineHeight = int(height/dist) if dist != 0 else height
+    lineHeight = int(height/dist) if dist != 0 else math.inf
     top = max(-lineHeight/2 + height/2, 0)
     bottom = min(lineHeight/2 + height/2, height)
     color = wallColors[side]
