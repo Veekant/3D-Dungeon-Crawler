@@ -1,19 +1,20 @@
 from math import *
 from cmu_graphics import *
+import settings
 
-# rotation formula from https://lodev.org/cgtutor/raycasting.html
+# rotation matrix from https://en.wikipedia.org/wiki/Rotation_matrix
 
 class player:
-    speed = 5
-    lookSpeed = 1
-
-    def __init__(self, location, dir, fov):
+    
+    def __init__(self, location, dir):
         self.x = location[0]
         self.y = location[1]
 
         self.dirX = cos(dir)
         self.dirY = sin(dir)
 
+        # use fov from settings to calculate camera vectors
+        fov = settings.fov
         a = tan(radians(fov / 2))
         self.planeX = a * self.dirY
         self.planeY = -a * self.dirX
@@ -24,17 +25,21 @@ class player:
                 f"with camera ({self.planeX},{self.planeY})")
 
     def rotate(self, theta):
+        # store old variables
         oldDirX, oldDirY = self.dirX, self.dirY
         oldPlaneX, oldPlaneY = self.planeX, self.planeY
 
+        # multiply by rotation matrix
         self.dirX = oldDirX * cos(theta) - oldDirY * sin(theta)
         self.dirY = oldDirX * sin(theta) + oldDirY * cos(theta)
-
         self.planeX = oldPlaneX * cos(theta) - oldPlaneY * sin(theta)
         self.planeY = oldPlaneX * sin(theta) + oldPlaneY * cos(theta)
 
+    # move player in direction
     def move(self, dx, dy):
+        # use custom rotation matrix
         moveX = -dx * self.dirY - dy * self.dirX
         moveY = dx * self.dirX - dy * self.dirY 
+        # update vars
         self.x += moveX
         self.y += moveY

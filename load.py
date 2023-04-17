@@ -3,18 +3,19 @@ this file will handle loading the map, images, and sounds
 '''
 
 # loads a map from the mapID
-# returns map, width, and height
 def loadMap(mapID):
     map = []
+    # open map file
     fileName = 'levels/' + mapID + '.txt'
     mapFile = open(fileName, 'r')
+    # loop through each row
     for rowText in mapFile:
         textRow = rowText.strip().split()
+        # loop through each col
         mapRow = []
         for i in range(len(textRow)):
+            # cast string to int and add to list
             mapRow.append(int(textRow[i]))
         map.append(mapRow)
     mapFile.close()
-    rows = len(map)
-    cols = len(map[0])
     return map

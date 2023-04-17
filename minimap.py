@@ -4,8 +4,7 @@ minimap implementation
 
 from cmu_graphics import *
 
-# a lot of the following code is taken from CS Academy
-# specifically, the Tetris assignment
+# code inspired by CS Academy but with a few adjustments
 
 class minimap:
 
@@ -46,21 +45,19 @@ class minimap:
              borderWidth=self.borderWidth)
 
     def drawPlayer(self):
-        scale = 0.05 * self.width
+        scale = 0.5 * self.tileWidth
         posX, posY = self.getPlayerPos()
         dirPlaneX, dirPlaneY = posX + scale * self.player.dirY, posY + scale * self.player.dirX
-        # planeLX, planeLY = dirPlaneX - scale * self.player.planeX, dirPlaneY - scale * self.player.planeY
-        # planeRX, planeRY = dirPlaneX + scale * self.player.planeX, dirPlaneY + scale * self.player.planeY
+        planeLX, planeLY = dirPlaneX - scale * self.player.planeY, dirPlaneY - scale * self.player.planeX
+        planeRX, planeRY = dirPlaneX + scale * self.player.planeY, dirPlaneY + scale * self.player.planeX
 
         drawCircle(posX, posY, 0.5*scale)
 
         drawLine(posX, posY, dirPlaneX, dirPlaneY)
-
-        # drawLine(dirPlaneX, dirPlaneY, planeLX, planeLY)
-        # drawLine(dirPlaneX, dirPlaneY, planeRX, planeRY)
-
-        # drawLine(posX, posY, planeLX, planeLY)
-        # drawLine(posX, posY, planeRX, planeRY)
+        drawLine(dirPlaneX, dirPlaneY, planeLX, planeLY)
+        drawLine(dirPlaneX, dirPlaneY, planeRX, planeRY)
+        drawLine(posX, posY, planeLX, planeLY)
+        drawLine(posX, posY, planeRX, planeRY)
         
     def drawMap(self):
         for row in range(self.rows):
