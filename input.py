@@ -8,12 +8,23 @@ def rotate(player, direction):
     player.rotate(direction)
 
 # move player and check for collisions
-def move(player, map, dx, dy):
+def move(player, map, hor, vert):
     # edge case (for later)
-    if dx == 0 and dy == 0: return
+    if hor == 0 and vert == 0: return
     # move player and check if position is legal
-    player.move(dx, dy)
-    mapX, mapY = int(player.x), int(player.y)
-    if map[mapX][mapY] == 0: return
+    player.move(hor, vert)
+    if map[int(player.x)][int(player.y)] == 0: return
     # if illegal, return to original position
-    player.move(-dx, -dy)
+    player.move(-hor, -vert)
+
+    # get direction components along axes
+    dx = hor * player.dirX + vert * player.dirX
+    dy = hor * player.dirY + vert * player.dirY
+    # check first axis
+    player.moveAxis(dx, 0)
+    if map[int(player.x)][int(player.y)] == 0: return
+    # if failed, undo and try second axis
+    player.moveAxis(-dx, dy)
+    if map[int(player.x)][int(player.y)] == 0: return
+    # if failed again, give up and cry probably
+    player.moveAxis(0, -dy)

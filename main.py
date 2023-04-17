@@ -40,10 +40,10 @@ def onKeyHold(app, keys):
     if 'q' in keys: input.rotate(app.player, 0.05)
     elif 'e' in keys: input.rotate(app.player, -0.05)
 
-    elif 'w' in keys: input.move(app.player, app.map, 0, -1/30)
-    elif 'a' in keys: input.move(app.player, app.map, 1/30, 0)
-    elif 's' in keys: input.move(app.player, app.map, 0, 1/30)
-    elif 'd' in keys: input.move(app.player, app.map, -1/30, 0)
+    elif 'w' in keys: input.move(app.player, app.map, 0, 1/30)
+    elif 'a' in keys: input.move(app.player, app.map, -1/30, 0)
+    elif 's' in keys: input.move(app.player, app.map, 0, -1/30)
+    elif 'd' in keys: input.move(app.player, app.map, +1/30, 0)
 
 def main():
     runApp()

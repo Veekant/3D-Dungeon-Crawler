@@ -5,7 +5,7 @@ import settings
 # rotation matrix from https://en.wikipedia.org/wiki/Rotation_matrix
 
 class player:
-    
+
     def __init__(self, location, dir):
         self.x = location[0]
         self.y = location[1]
@@ -38,8 +38,13 @@ class player:
     # move player in direction
     def move(self, dx, dy):
         # use custom rotation matrix
-        moveX = -dx * self.dirY - dy * self.dirX
-        moveY = dx * self.dirX - dy * self.dirY 
+        moveX = dx * self.dirY + dy * self.dirX
+        moveY = -dx * self.dirX + dy * self.dirY 
         # update vars
         self.x += moveX
         self.y += moveY
+    
+    # move player along axes
+    def moveAxis(self, dx, dy):
+        self.x += dx
+        self.y += dy
