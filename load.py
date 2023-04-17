@@ -1,5 +1,9 @@
 '''
 this file will handle loading the map, images, and sounds
+
+TO DO:
+load textures (TP2/3)
+load sounds (TP3)
 '''
 
 # loads a map from the mapID

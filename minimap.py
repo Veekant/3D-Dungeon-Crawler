@@ -1,10 +1,14 @@
 '''
 minimap implementation
+
+TO DO:
+draw enemies and npcs to map (TP2)
+
 '''
 
 from cmu_graphics import *
 
-# code inspired by CS Academy but with a few adjustments
+# code inspired by CS Academy (Tetris) but with a few adjustments
 
 class minimap:
 

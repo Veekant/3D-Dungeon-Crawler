@@ -1,5 +1,11 @@
 '''
 This file will handle the bulk of the world rendering
+
+TO DO:
+sprite rendering (TP1/2)
+texture rendering (TP3)
+floor/ceiling rendering (TP3)
+
 '''
 from cmu_graphics import *
 import math
