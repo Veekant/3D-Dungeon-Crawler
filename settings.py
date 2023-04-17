@@ -12,6 +12,7 @@ height = 720
 fps = 60
 
 # player information
+player = None
 fov = 65
 speed = 5
 lookSpeed = 1

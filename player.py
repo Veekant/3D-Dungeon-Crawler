@@ -3,7 +3,6 @@ contains player class and a few methods
 
 TO DO:
 add combat features (TP1/2)
-
 '''
 
 from math import *
@@ -15,9 +14,9 @@ import settings
 
 class player:
 
-    def __init__(self, location, dir):
-        self.x = location[0]
-        self.y = location[1]
+    def __init__(self, x, y, dir):
+        self.x = x
+        self.y = y
 
         self.dirX = cos(dir)
         self.dirY = sin(dir)

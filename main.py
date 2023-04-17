@@ -12,7 +12,8 @@ def onAppStart(app):
     app.width, app.height = settings.width, settings.height
     app.stepsPerSecond = settings.fps
     app.map = load.loadMap("map1")
-    app.player = player.player((1.5, 1.5), math.pi)
+    app.player = player.player(1.5, 1.5, math.pi)
+    settings.player = app.player
     app.minimap = minimap.minimap(app.map, app.player, app.width-200, app.height-200, 200, 200)
 
 def redrawAll(app):

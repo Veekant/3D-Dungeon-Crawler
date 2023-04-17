@@ -19,11 +19,12 @@ wallColors = ['slateGray', 'lightSlateGray']
 ceilingColor = 'dimGray'
 floorColor = rgb(186, 140, 99)
 
-# basic render function
+# main render function
 def render(width, height, player, map):
     # draw floor and ceiling
     drawRect(0, 0, width, height//2, fill=ceilingColor)
     drawRect(0, height//2, width, height, fill=floorColor)
+    zBuffer = []
     # loop through pixel x-values on screen
     for x in range(0, width+1, resolution):
         # shift x-values so they go from -1 to 1
@@ -32,11 +33,11 @@ def render(width, height, player, map):
         rayDirX = player.dirX + adjX * player.planeX
         rayDirY = player.dirY + adjX * player.planeY
         # cast ray and draw line
-        dist, side = rayCast(player.x, player.y, rayDirX, rayDirY, map)
+        dist, side = rayCast(player.x, player.y, rayDirX, rayDirY, map, zBuffer)
         drawVertLine(x, dist, side, height)
 
 # function that handles casting 1 ray
-def rayCast(posX, posY, dirX, dirY, map):
+def rayCast(posX, posY, dirX, dirY, map, buffer):
     # get map tile to check
     mapX, mapY = int(posX), int(posY)
     # get direction to check tiles in 
@@ -66,6 +67,8 @@ def rayCast(posX, posY, dirX, dirY, map):
             hit = True
     # calculate perp wall distance (removes fisheye)
     dist = (totalDistX - deltaDistX) if side == 0 else (totalDistY - deltaDistY)
+    # add dist to buffer
+    buffer.extend([dist] * resolution)
     return dist, side
 
 # helper function that returns sign
@@ -84,3 +87,6 @@ def drawVertLine(x, dist, side, height):
     color = wallColors[side]
     # draw line
     drawLine(x, top, x, bottom, fill=color, lineWidth=resolution)
+
+def drawSprites():
+    pass
