@@ -83,7 +83,7 @@ def sign(num):
 # draw vertical line on screen
 def drawVertLine(x, dist, side, height):
     # calculate line of height
-    lineHeight = int(height/dist) if dist != 0 else math.inf
+    lineHeight = height/dist if dist != 0 else math.inf
     # find top and bottom of line
     top = max(-lineHeight/2 + height/2, 0)
     bottom = min(lineHeight/2 + height/2, height)
@@ -96,22 +96,27 @@ def drawSprites(width, height, player, buffer):
     spriteList = sorted(settings.spriteList, reverse=True)
     for sprite in spriteList:
         spriteDistX, spriteDistY = (sprite.x - player.x), (sprite.y - player.y)
-        invCoeff = 1 / (player.planeX*player.dirY - player.dirX*player.planeY)
-        spriteCameraX = invCoeff * (spriteDistX*player.dirY - spriteDistY*player.dirX)
-        spriteCameraY = invCoeff * (-spriteDistX*player.planeY + spriteDistY*player.planeX)
-        spriteScreenX = int((width/2) * (1 + spriteCameraX / spriteCameraY))
+        coeff = 1 / (player.planeX*player.dirY - player.dirX*player.planeY)
+        spriteCameraX = coeff * (spriteDistX*player.dirY - spriteDistY*player.dirX)
+        spriteCameraY = coeff * (-spriteDistX*player.planeY + spriteDistY*player.planeX)
+        spriteScreenX = (width/2) * (1 + spriteCameraX / spriteCameraY)
 
-        spriteWidth = abs(int(height / spriteCameraY))
-        spriteLeft = max(-spriteWidth//2 + spriteScreenX, 0)
-        spriteRight = min(spriteWidth//2 + spriteScreenX, width)
+        heightScale = 2
+        widthScale = 3
+        vertScale = 0
+        vertScaleScreen = vertScale / spriteCameraY
 
-        spriteHeight = abs(int(height / spriteCameraX))
-        spriteTop = max(-spriteHeight/2 + height/2, 0)
-        spriteBottom = min(spriteHeight/2 + height/2, height)
+        spriteWidth = abs(width / spriteCameraY) / widthScale
+        spriteLeft = max(-spriteWidth/2 + spriteScreenX, 0)
+        spriteRight = min(spriteWidth/2 + spriteScreenX, width)
+
+        spriteHeight = abs(height / spriteCameraY) / heightScale
+        spriteTop = max(-spriteHeight/2 + height/2 + vertScaleScreen, 0)
+        spriteBottom = min(spriteHeight/2 + height/2 + vertScaleScreen, height)
 
         drawSprite(sprite.texID, width, spriteCameraY, spriteLeft, spriteRight, spriteTop, spriteBottom, buffer)
 
 def drawSprite(spriteID, width, depth, left, right, top, bottom, buffer):
-    for x in range(left, right, resolution):
+    for x in range(int(left), int(right)+1, resolution):
         if (0 < depth <= buffer[x]):
             drawLine(x, bottom, x, top, fill="green", lineWidth=resolution)
