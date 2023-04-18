@@ -32,8 +32,8 @@ class minimap:
         return (tileLeft, tileTop)
     
     def getPlayerPos(self):
-        playerX = self.left + self.player.y * self.tileWidth
-        playerY = self.top + self.player.x * self.tileHeight
+        playerX = self.left + self.player.x * self.tileWidth
+        playerY = self.top + self.player.y * self.tileHeight
         return (playerX, playerY)
     
     def drawBorder(self):
@@ -50,21 +50,23 @@ class minimap:
     def drawPlayer(self):
         scale = 0.5 * self.tileWidth
         posX, posY = self.getPlayerPos()
-        dirPlaneX, dirPlaneY = posX + scale * self.player.dirY, posY + scale * self.player.dirX
+        dirPlaneX, dirPlaneY = posX + scale * self.player.dirX, posY + scale * self.player.dirY
         planeLX, planeLY = dirPlaneX - scale * self.player.planeY, dirPlaneY - scale * self.player.planeX
         planeRX, planeRY = dirPlaneX + scale * self.player.planeY, dirPlaneY + scale * self.player.planeX
 
         drawCircle(posX, posY, 0.5*scale)
 
         drawLine(posX, posY, dirPlaneX, dirPlaneY)
+        '''
         drawLine(dirPlaneX, dirPlaneY, planeLX, planeLY)
         drawLine(dirPlaneX, dirPlaneY, planeRX, planeRY)
         drawLine(posX, posY, planeLX, planeLY)
         drawLine(posX, posY, planeRX, planeRY)
+        '''
         
     def drawMap(self):
-        for row in range(self.rows):
-            for col in range(self.cols):
-                color = 'blue' if self.map[row][col] == 1 else 'white'
+        for col in range(self.cols):
+            for row in range(self.rows):
+                color = 'blue' if self.map[col][row] == 1 else 'white'
                 self.drawTile(row, col, color)
         self.drawPlayer()

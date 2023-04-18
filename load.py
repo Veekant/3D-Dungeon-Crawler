@@ -8,7 +8,7 @@ load sounds (TP3)
 
 # loads a map from the mapID
 def loadMap(mapID):
-    map = []
+    flipMap = []
     # open map file
     fileName = 'levels/' + mapID + '.txt'
     mapFile = open(fileName, 'r')
@@ -20,6 +20,12 @@ def loadMap(mapID):
         for i in range(len(textRow)):
             # cast string to int and add to list
             mapRow.append(int(textRow[i]))
-        map.append(mapRow)
+        flipMap.append(mapRow)
     mapFile.close()
+    
+    map = []
+    rows, cols = len(flipMap), len(flipMap[0])
+    for col in range(cols):
+        colList = [flipMap[row][col] for row in range(rows)]
+        map.append(colList)
     return map
