@@ -20,4 +20,7 @@ maxHealth = 100
 maxStamina = 100
 maxSpecial = 100
 
+# map information
+spriteList = []
+
 # enemy information

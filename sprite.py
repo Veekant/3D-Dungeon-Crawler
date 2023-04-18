@@ -10,14 +10,12 @@ conversations
 import settings
 
 class sprite:
-    # list that can be accessed to loop through all sprites
-    spriteList = []
 
     def __init__(self, x, y, textureID):
         self.x = x
         self.y = y
         self.texID = textureID
-        sprite.spriteList.append(self)
+        settings.spriteList.append(self)
     
     # methods for sorting
     def __eq__(self, other):

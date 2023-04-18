@@ -8,9 +8,11 @@ floor/ceiling rendering (TP3)
 
 '''
 from cmu_graphics import *
+import settings
 import math
 
-# raycasting algorithms from https://lodev.org/cgtutor/raycasting.html
+# base raycasting algorithm from https://lodev.org/cgtutor/raycasting.html
+# sprite raycasting algorithm from https://lodev.org/cgtutor/raycasting3.html
 
 # initialize basic rendering vars (will move into settings later)
 resolution = 8
@@ -35,6 +37,8 @@ def render(width, height, player, map):
         # cast ray and draw line
         dist, side = rayCast(player.x, player.y, rayDirX, rayDirY, map, zBuffer)
         drawVertLine(x, dist, side, height)
+    
+    drawSprites(width, height, player, zBuffer)
 
 # function that handles casting 1 ray
 def rayCast(posX, posY, dirX, dirY, map, buffer):
@@ -88,5 +92,26 @@ def drawVertLine(x, dist, side, height):
     # draw line
     drawLine(x, top, x, bottom, fill=color, lineWidth=resolution)
 
-def drawSprites():
-    pass
+def drawSprites(width, height, player, buffer):
+    spriteList = sorted(settings.spriteList, reverse=True)
+    for sprite in spriteList:
+        spriteDistX, spriteDistY = (sprite.x - player.x), (sprite.y - player.y)
+        invCoeff = 1 / (player.planeX*player.dirY - player.dirX*player.planeY)
+        spriteCameraX = invCoeff * (spriteDistX*player.dirY - spriteDistY*player.dirX)
+        spriteCameraY = invCoeff * (-spriteDistX*player.planeY + spriteDistY*player.planeX)
+        spriteScreenX = int((width/2) * (1 + spriteCameraX / spriteCameraY))
+
+        spriteWidth = abs(int(height / spriteCameraY))
+        spriteLeft = max(-spriteWidth//2 + spriteScreenX, 0)
+        spriteRight = min(spriteWidth//2 + spriteScreenX, width)
+
+        spriteHeight = abs(int(height / spriteCameraX))
+        spriteTop = max(-spriteHeight/2 + height/2, 0)
+        spriteBottom = min(spriteHeight/2 + height/2, height)
+
+        drawSprite(sprite.texID, width, spriteCameraY, spriteLeft, spriteRight, spriteTop, spriteBottom, buffer)
+
+def drawSprite(sprite, width, depth, left, right, top, bottom, buffer):
+    for x in range(left, right):
+        if (0 < depth <= buffer[x]):
+            drawLine(x, bottom, x, top, fill="green")

@@ -3,6 +3,7 @@ import settings
 import load
 import player
 import minimap
+import sprite
 import renderGame
 import input
 import math
@@ -15,6 +16,7 @@ def onAppStart(app):
     app.player = player.player(1.5, 1.5, math.pi)
     settings.player = app.player
     app.minimap = minimap.minimap(app.map, app.player, app.width-200, app.height-200, 200, 200)
+    testSprite = sprite.sprite(6, 4, None)
 
 def redrawAll(app):
     startTime = time.time()
