@@ -25,7 +25,7 @@ floorColor = rgb(186, 140, 99)
 def render(width, height, player, map):
     # draw floor and ceiling
     drawRect(0, 0, width, height//2, fill=ceilingColor)
-    drawRect(0, height//2, width, height, fill=floorColor)
+    drawRect(0, height//2, width, height//2, fill=floorColor)
     zBuffer = []
     # loop through pixel x-values on screen
     for x in range(0, width+1, resolution):
@@ -111,7 +111,7 @@ def drawSprites(width, height, player, buffer):
 
         drawSprite(sprite.texID, width, spriteCameraY, spriteLeft, spriteRight, spriteTop, spriteBottom, buffer)
 
-def drawSprite(sprite, width, depth, left, right, top, bottom, buffer):
-    for x in range(left, right):
+def drawSprite(spriteID, width, depth, left, right, top, bottom, buffer):
+    for x in range(left, right, resolution):
         if (0 < depth <= buffer[x]):
-            drawLine(x, bottom, x, top, fill="green")
+            drawLine(x, bottom, x, top, fill="green", lineWidth=resolution)
