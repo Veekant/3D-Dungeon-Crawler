@@ -18,23 +18,14 @@ class player:
         self.x = x
         self.y = y
 
-        self.dirX = -1
-        self.dirY = 0
-
-        self.planeX = 0
-        self.planeY = -0.66
-    
-
-        '''
         self.dirX = cos(dir)
         self.dirY = sin(dir)
 
         # use fov from settings to calculate camera vectors
         fov = settings.fov
         a = tan(radians(fov / 2))
-        self.planeX = a * self.dirY
-        self.planeY = -a * self.dirX
-        '''
+        self.planeX = -a * self.dirY
+        self.planeY = a * self.dirX
 
     def __str__(self):
         return (f"Player at ({self.x},{self.y}) " +

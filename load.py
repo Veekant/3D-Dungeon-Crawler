@@ -23,6 +23,7 @@ def loadMap(mapID):
         flipMap.append(mapRow)
     mapFile.close()
     
+    # reverse map (so pos can be indexed by x,y)
     map = []
     rows, cols = len(flipMap), len(flipMap[0])
     for col in range(cols):

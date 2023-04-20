@@ -11,8 +11,11 @@ width = 1280
 height = 720
 fps = 60
 
-# player information
+# game information
 player = None
+minimap = None
+
+# player information
 fov = 65
 speed = 5
 lookSpeed = 1

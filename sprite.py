@@ -17,6 +17,9 @@ class sprite:
         self.texID = textureID
         settings.spriteList.append(self)
     
+    def __str__(self):
+        return f"ID:{self.texID}, pos:({self.x},{self.y}))"
+
     # methods for sorting
     def __eq__(self, other):
         if not isinstance(other, sprite): return False

@@ -16,7 +16,7 @@ def onAppStart(app):
     print(app.map)
     app.player = player.player(1.5, 1.5, math.pi)
     settings.player = app.player
-    app.minimap = minimap.minimap(app.map, app.player, app.width-200, app.height-200, 200, 200)
+    app.minimap = minimap.minimap(app.map, app.width-200, app.height-200, 200, 200)
     testSprite = sprite.sprite(4, 6, None)
 
 def redrawAll(app):
