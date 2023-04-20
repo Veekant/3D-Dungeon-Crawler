@@ -101,9 +101,9 @@ def drawSprites(width, height, player, buffer):
         spriteCameraY = coeff * (-spriteDistX*player.planeY + spriteDistY*player.planeX)
         spriteScreenX = (width/2) * (1 + spriteCameraX / spriteCameraY)
 
-        heightScale = 2
+        heightScale = 3
         widthScale = 3
-        vertScale = 0
+        vertScale = 300
         vertScaleScreen = vertScale / spriteCameraY
 
         spriteWidth = abs(width / spriteCameraY) / widthScale
