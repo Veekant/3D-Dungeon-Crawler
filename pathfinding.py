@@ -78,7 +78,7 @@ def getPath(prevDict, endPos):
         path.append(nextNode)
         nextNode = prevDict.get(nextNode, None)
     # reverse the path so the end is at the end
-    return reversed(path)
+    return list(reversed(path))
 
 # basic distance function
 def distance(posInitial, posFinal):
