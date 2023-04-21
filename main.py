@@ -33,6 +33,8 @@ def redrawAll(app):
 
 def onStep(app):
     # print(app.player)
+    for enemy in settings.enemyList:
+        enemy.update()
     pass
 
 def onMouseMove(app, mouseX, mouseY):

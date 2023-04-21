@@ -15,20 +15,20 @@ import math
 
 # convert position to center of current tile
 def convertToNavCoords(pos):
-    posX = int(pos[0]) + 0.5
-    posY = int(pos[1]) + 0.5
+    posX = int(pos[0])
+    posY = int(pos[1])
     return (posX, posY)
 
 # get set of all walkable tiles in map
 def getMapGraph(map):
-    rows, cols = len(map), len(map[0])
+    cols, rows = len(map), len(map[0])
     graph = set()
     # loop through all tiles
-    for row in range(rows):
-        for col in range(cols):
+    for col in range(cols):
+        for row in range(rows):
             # add tile to set if walkable
-            if map[row][col] == 0:
-                graph.add((row+0.5, col+0.5))
+            if map[col][row] == 0:
+                graph.add((col, row))
     return graph
 
 # get dict from set with a default val
@@ -42,30 +42,30 @@ def getGraphDict(graph, val):
 def getMinKey(s, d):
     # init vars
     minKey = None
-    minKeyVal = -1
+    minKeyVal = math.inf
     # loop through elems in set
     for key in s:
         # if elem in dict and value is lowest, update vars
-        if s in d and d[key] < minKeyVal:
+        if key in d and d[key] < minKeyVal:
             minKey = key
             minKeyVal = d[key]
     return minKey
 
 # get set of neighbors to a tile
 def getNeighborNodes(map, pos):
-    rows, cols = len(map), len(map[0])
-    currRow, currCol = int(pos[0]), int(pos[1])
+    cols, rows = len(map), len(map[0])
+    currCol, currRow = pos[0], pos[1]
     neighborNodes = set()
     # loop through all directions
-    for dRow in [-1, 0, 1]:
-        for dCol in [-1, 0, 1]:
+    for dCol in [-1, 0, 1]:
+        for dRow in [-1, 0, 1]:
             neighborRow, neighborCol = currRow + dRow, currCol + dCol
             # make sure neighbor is different than current, within map, and walkable
             if ((dRow != 0 or dCol != 0) and
                 (0 <= neighborRow < rows) and
                 (0 <= neighborCol < cols) and
-                (map[neighborRow][neighborCol == 0])):
-                neighborNodes.add((neighborRow, neighborCol))
+                (map[neighborCol][neighborRow] == 0)):
+                neighborNodes.add((neighborCol, neighborRow))
     return neighborNodes
 
 # gets path from end
@@ -82,7 +82,7 @@ def getPath(prevDict, endPos):
 
 # basic distance function
 def distance(posInitial, posFinal):
-    return (posFinal[0]-posInitial[0]**2 + (posFinal[1]-posInitial[0])**2)**0.5
+    return ((posFinal[0]-posInitial[0])**2 + (posFinal[1]-posInitial[0])**2)**0.5
 
 # heuristic function for A* algorithm
 def heuristic(current, target):
@@ -111,8 +111,6 @@ def findPath(start, end):
         # return path if node at the end
         if curr == end:
             return getPath(prevDict, curr)
-        # remove node, since checked
-        checkSet.remove(curr)
         # loop through neighbors
         for neighbor in getNeighborNodes(map, curr):
             localPathScore = localScoreDict[curr] + distance(curr, neighbor)
@@ -122,5 +120,7 @@ def findPath(start, end):
                 localScoreDict[neighbor] = localPathScore
                 globalScoreDict[neighbor] = localPathScore + heuristic(curr, end)
                 checkSet.add(neighbor)
+        # remove node, since checked
+        checkSet.remove(curr)
     # if no paths, return None
     return None

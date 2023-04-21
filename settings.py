@@ -28,3 +28,4 @@ maxSpecial = 100
 spriteList = []
 
 # enemy information
+enemyList = []

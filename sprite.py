@@ -8,6 +8,7 @@ pathfinding
 conversations
 '''
 import settings
+import pathfinding
 
 class sprite:
 
@@ -41,3 +42,10 @@ class character(sprite):
 
     def __init__(self, x, y, hScale, wScale, vScale, textureID):
         super().__init__(x, y, hScale, wScale, vScale, textureID)
+        settings.enemyList.append(self)
+
+    def update(self):
+        if self.distToPlayer() < 10:
+            player = settings.player
+            path = pathfinding.findPath((self.x, self.y), (player.x,player.y))
+            print(path)
