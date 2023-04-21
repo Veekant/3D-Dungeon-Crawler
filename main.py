@@ -13,11 +13,10 @@ def onAppStart(app):
     app.width, app.height = settings.width, settings.height
     app.stepsPerSecond = settings.fps
     app.map = load.loadMap("map1")
-    print(app.map)
     app.player = player.player(1.5, 1.5, math.pi)
     settings.player = app.player
     app.minimap = minimap.minimap(app.map, app.width-200, app.height-200, 200, 200)
-    testSprite = sprite.sprite(2.5, 1.5, None)
+    testSprite = sprite.character(2.5, 1.5, 3, 3, 250, None)
 
 def redrawAll(app):
     startTime = time.time()

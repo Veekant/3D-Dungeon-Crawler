@@ -11,9 +11,12 @@ import settings
 
 class sprite:
 
-    def __init__(self, x, y, textureID):
+    def __init__(self, x, y, hScale, wScale, vScale, textureID):
         self.x = x
         self.y = y
+        self.heightScale = hScale
+        self.widthScale = wScale
+        self.vertScale = vScale
         self.texID = textureID
         settings.spriteList.append(self)
     
@@ -36,5 +39,5 @@ class sprite:
 
 class character(sprite):
 
-    def __init__(self, x, y, textureID):
-        super().__init__(x, y, textureID)
+    def __init__(self, x, y, hScale, wScale, vScale, textureID):
+        super().__init__(x, y, hScale, wScale, vScale, textureID)
