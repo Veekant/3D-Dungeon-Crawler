@@ -9,6 +9,10 @@ Implement A Star Algorithm
 import settings
 import math
 
+# A* algorithm from:
+# https://www.youtube.com/watch?v=ySN5Wnu88nE
+# https://www.youtube.com/watch?v=icZj67PTFhc (just the example part)
+
 # convert position to center of current tile
 def convertToNavCoords(pos):
     posX = int(pos[0]) + 0.5
