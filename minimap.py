@@ -12,8 +12,8 @@ import settings
 
 class minimap:
 
-    def __init__(self, map, left, top, width, height):
-        self.map = map
+    def __init__(self, left, top, width, height):
+        map = settings.map
         self.rows, self.cols = len(map), len(map[0])
         self.left = left
         self.top = top
@@ -72,9 +72,10 @@ class minimap:
             drawCircle(spriteX, spriteY, 0.15*self.tileWidth, fill='red')
         
     def drawMap(self):
+        map = settings.map
         for col in range(self.cols):
             for row in range(self.rows):
-                color = 'blue' if self.map[col][row] == 1 else 'white'
+                color = 'blue' if map[col][row] == 1 else 'white'
                 self.drawTile(row, col, color)
         self.drawPlayer()
         self.drawSprites()

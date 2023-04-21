@@ -1,14 +1,18 @@
 '''
 might handle some input stuff here
 '''
+import settings
 import math
 
 # call player rotate method
-def rotate(player, direction):
+def rotate(direction):
+    player = settings.player
     player.rotate(direction)
 
 # move player and check for collisions
-def move(player, map, hor, vert):
+def move(hor, vert):
+    player = settings.player
+    map = settings.map
     # edge case (for later)
     if hor == 0 and vert == 0: return
     # move player and check if position is legal

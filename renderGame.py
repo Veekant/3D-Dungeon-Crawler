@@ -2,7 +2,6 @@
 This file will handle the bulk of the world rendering
 
 TO DO:
-sprite rendering (TP1/2)
 texture rendering (TP3)
 floor/ceiling rendering (TP3)
 
@@ -22,7 +21,9 @@ ceilingColor = 'dimGray'
 floorColor = rgb(186, 140, 99)
 
 # main render function
-def render(width, height, player, map):
+def render():
+    width, height = settings.width, settings.height
+    player, map = settings.player, settings.map
     # draw floor and ceiling
     drawRect(0, 0, width, height//2, fill=ceilingColor)
     drawRect(0, height//2, width, height//2, fill=floorColor)

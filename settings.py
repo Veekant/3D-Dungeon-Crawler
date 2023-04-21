@@ -13,6 +13,7 @@ fps = 60
 
 # game information
 player = None
+map = None
 minimap = None
 
 # player information
