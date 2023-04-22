@@ -15,6 +15,7 @@ fps = 60
 player = None
 map = None
 minimap = None
+gameOver = False
 
 # player information
 fov = 65
@@ -23,6 +24,7 @@ lookSpeed = 1
 maxHealth = 100
 maxStamina = 100
 maxSpecial = 100
+knockback = 0.3
 
 # map information
 spriteList = []
@@ -30,4 +32,8 @@ spriteList = []
 # enemy information
 enemyList = []
 aggroDistance = 5
-enemyAttackRange = 0.2
+enemyAttackRange = 1
+enemyDamage = 3.7
+enemyStaminaCost = 6
+enemyAttackCooldown = 3
+enemyKnockback = 0.5

@@ -9,6 +9,7 @@ conversations
 '''
 import settings
 import pathfinding
+import time
 
 class sprite:
 
@@ -42,6 +43,7 @@ class enemy(sprite):
 
     def __init__(self, x, y, hScale, wScale, vScale, textureID):
         super().__init__(x, y, hScale, wScale, vScale, textureID)
+        self.attackTimer = time.time()
         settings.enemyList.append(self)
 
     def update(self):
@@ -51,10 +53,10 @@ class enemy(sprite):
 
     def moveToPlayer(self, player):
         pos = (self.x, self.y)
-        playerPos = (player.x, player.y)
-        path = pathfinding.findPath(pos, playerPos)
+        cameraPos = (player.x + player.dirX, player.y+player.dirY)
+        path = pathfinding.findPath(pos, cameraPos)
         if path != None and len(path)-1 <= settings.aggroDistance:
-            target = (path[1][0] + 0.5, path[1][1] + 0.5) if len(path)>1 else playerPos
+            target = (path[1][0] + 0.5, path[1][1] + 0.5) if len(path)>1 else cameraPos
             self.moveToPoint(target)
 
     def moveToPoint(self, point):
@@ -72,7 +74,9 @@ class enemy(sprite):
 
     def attack(self, player):
         if self.distToPlayer() < settings.enemyAttackRange:
-            player.health = (player.health - 5) % settings.maxHealth
+            if time.time() - self.attackTimer >= settings.enemyAttackCooldown: 
+                player.attacked(self)
+                self.attackTimer = time.time()
     
 def sign(num):
     if num > 0: return 1

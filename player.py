@@ -8,6 +8,7 @@ add combat features (TP1/2)
 from math import *
 from cmu_graphics import *
 import settings
+import input
 
 
 # rotation matrix from https://en.wikipedia.org/wiki/Rotation_matrix
@@ -27,10 +28,11 @@ class player:
         self.planeX = -a * self.dirY
         self.planeY = a * self.dirX
 
+        # combat stuff
         self.health = settings.maxHealth
         self.stamina = settings.maxStamina
         self.special = settings.maxSpecial
-
+        self.blocking = False
 
     def __str__(self):
         return (f"Player at ({self.x},{self.y}) " +
@@ -61,3 +63,22 @@ class player:
     def moveAxis(self, dx, dy):
         self.x += dx
         self.y += dy
+
+    def attacked(self, enemy):
+        if self.blocking and self.stamina > settings.enemyStaminaCost:
+            self.stamina -= settings.enemyStaminaCost
+        else:
+            self.health -= settings.enemyDamage
+
+        if self.health <= 0: settings.gameOver = True
+        if self.stamina <= 0: self.blocking = False
+
+        enemyDistVec = (self.x - enemy.x, self.y - enemy.y)
+        enemyDist = distance(enemy.x, enemy.y, self.x, self.y)
+        normDistVec = (enemyDistVec[0] / enemyDist, enemyDistVec[0] / enemyDist)
+        knockbackVec = (normDistVec[0] * settings.knockback, normDistVec[1] * settings.knockback)
+        input.move(knockbackVec[0], knockbackVec[1])
+    
+    @staticmethod
+    def distance(x1, y1, x2, y2):
+        return ((x2-x1)**2 + (y2-y1)**2)**0.5 

@@ -32,3 +32,8 @@ def move(hor, vert):
     if map[int(player.x)][int(player.y)] == 0: return
     # if failed again, give up and cry probably
     player.moveAxis(0, -dy)
+
+def attack():
+    player = settings.player
+    for enemy in settings.enemyList:
+        pass
