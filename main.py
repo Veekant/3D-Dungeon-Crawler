@@ -15,7 +15,7 @@ def onAppStart(app):
     settings.map = load.loadMap("map1")
     settings.player = player.player(1.5, 1.5, math.pi)
     settings.minimap = minimap.minimap(app.width-200, app.height-200, 200, 200)
-    testSprite = sprite.character(2.5, 1.5, 3, 3, 250, None)
+    testEnemy = sprite.enemy(3.5, 4.5, 3, 3, 250, None)
 
 def redrawAll(app):
     startTime = time.time()
@@ -44,7 +44,7 @@ def onKeyHold(app, keys):
     if 'q' in keys: input.rotate(-0.05)
     elif 'e' in keys: input.rotate(0.05)
 
-    elif 'w' in keys: input.move(0, 1/30)
+    if 'w' in keys: input.move(0, 1/30)
     elif 'a' in keys: input.move(1/30, 0)
     elif 's' in keys: input.move(0, -1/30)
     elif 'd' in keys: input.move(-1/30, 0)

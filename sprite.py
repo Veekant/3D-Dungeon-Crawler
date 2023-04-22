@@ -38,15 +38,27 @@ class sprite:
         player = settings.player
         return ((self.x-player.x)**2 + (self.y-player.y)**2)**0.5
 
-class character(sprite):
+class enemy(sprite):
 
     def __init__(self, x, y, hScale, wScale, vScale, textureID):
         super().__init__(x, y, hScale, wScale, vScale, textureID)
         settings.enemyList.append(self)
 
+    def update(self):
+        player = settings.player
+        self.moveToPlayer(player)
+
+    def moveToPlayer(self, player):
+        pos = (self.x, self.y)
+        playerPos = (player.x, player.y)
+        path = pathfinding.findPath(pos, playerPos)
+        if path != None and len(path)-1 <= settings.aggroDistance:
+            target = (path[1][0] + 0.5, path[1][1] + 0.5) if len(path)>1 else playerPos
+            self.moveToPoint(target)
+
     def moveToPoint(self, point):
         x, y = point[0], point[1]
-        dx, dy = character.sign(x - self.x), character.sign(y - self.y)
+        dx, dy = sign(x - self.x), sign(y - self.y)
         self.move(dx, dy)
 
     def move(self, dx, dy):
@@ -56,19 +68,8 @@ class character(sprite):
         else:
             self.x += dx * (0.01 / 2**0.5)
             self.y += dy * (0.01 / 2**0.5)
-
-    def update(self):
-        if self.distToPlayer() < 10:
-            player = settings.player
-            pos = (self.x, self.y)
-            playerPos = (player.x, player.y)
-            path = pathfinding.findPath(pos, playerPos)
-            if path != None:
-                target = (path[1][0] + 0.5, path[1][1] + 0.5) if len(path)>1 else playerPos
-                self.moveToPoint(target)
     
-    @staticmethod
-    def sign(num):
-        if num > 0: return 1
-        if num < 0: return -1
-        return 0
+def sign(num):
+    if num > 0: return 1
+    if num < 0: return -1
+    return 0
