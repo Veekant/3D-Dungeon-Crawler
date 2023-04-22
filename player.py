@@ -8,6 +8,7 @@ add combat features (TP1/2)
 from math import *
 from cmu_graphics import *
 import settings
+import utilities
 import input
 
 
@@ -73,12 +74,7 @@ class player:
         if self.health <= 0: settings.gameOver = True
         if self.stamina <= 0: self.blocking = False
 
-        enemyDistVec = (self.x - enemy.x, self.y - enemy.y)
-        enemyDist = distance(enemy.x, enemy.y, self.x, self.y)
-        normDistVec = (enemyDistVec[0] / enemyDist, enemyDistVec[0] / enemyDist)
+        enemyDistVec = (enemy.x-self.x, enemy.y-self.y)
+        normDistVec = utilities.normalizeVector(enemyDistVec)
         knockbackVec = (normDistVec[0] * settings.knockback, normDistVec[1] * settings.knockback)
         input.move(knockbackVec[0], knockbackVec[1])
-    
-    @staticmethod
-    def distance(x1, y1, x2, y2):
-        return ((x2-x1)**2 + (y2-y1)**2)**0.5 

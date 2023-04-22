@@ -1,13 +1,12 @@
 '''
 pathfinding algorithm and helper function implemented here
 
-TO DO:
-Implement helper functions to get map and stuff
-Implement A Star Algorithm
+TO DO: None
 '''
 
 import settings
 import math
+import utilities
 
 # A* algorithm from:
 # https://www.youtube.com/watch?v=ySN5Wnu88nE
@@ -87,7 +86,7 @@ def getPath(prevDict, endPos):
 
 # basic distance function
 def distance(posInitial, posFinal):
-    return ((posFinal[0]-posInitial[0])**2 + (posFinal[1]-posInitial[0])**2)**0.5
+    return utilities.distance(posInitial[0], posInitial[1], posFinal[0], posFinal[1])
 
 # heuristic function for A* algorithm
 def heuristic(current, target):

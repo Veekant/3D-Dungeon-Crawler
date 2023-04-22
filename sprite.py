@@ -9,6 +9,7 @@ conversations
 '''
 import settings
 import pathfinding
+import utilities
 import time
 
 class sprite:
@@ -37,11 +38,7 @@ class sprite:
     # gets distance to player
     def distToPlayer(self):
         player = settings.player
-        return sprite.distance(self.x, self.y, player.x, player.y)
-    
-    @staticmethod
-    def distance(x1, y1, x2, y2):
-        return ((x2-x1)**2 + (y2-y1)**2)**0.5
+        return utilities.distance(self.x, self.y, player.x, player.y)
 
 class enemy(sprite):
 
@@ -67,8 +64,7 @@ class enemy(sprite):
     def moveToPoint(self, point):
         x, y = point[0], point[1]
         distX, distY = (x - self.x), (y - self.y)
-        totalDist = sprite.distance(self.x, self.y, x, y)
-        dx, dy = distX/totalDist, distY/totalDist
+        dx, dy = utilities.normalizeVector((distX, distY))
         self.moveAxis(dx, dy)
 
     def moveAxis(self, dx, dy):
@@ -80,8 +76,3 @@ class enemy(sprite):
             if time.time() - self.attackTimer >= settings.enemyAttackCooldown: 
                 player.attacked(self)
                 self.attackTimer = time.time()
-    
-def sign(num):
-    if num > 0: return 1
-    if num < 0: return -1
-    return 0

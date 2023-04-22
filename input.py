@@ -2,6 +2,7 @@
 might handle some input stuff here
 '''
 import settings
+import utilities
 import math
 
 # call player rotate method
@@ -36,4 +37,5 @@ def move(hor, vert):
 def attack():
     player = settings.player
     for enemy in settings.enemyList:
-        pass
+        if utilities.distance(player.x, player.y, enemy.x, enemy.y) < settings.playerAttackDist:
+            pass

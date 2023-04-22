@@ -8,6 +8,7 @@ floor/ceiling rendering (TP3)
 '''
 from cmu_graphics import *
 import settings
+import utilities
 import math
 
 # base raycasting algorithm from https://lodev.org/cgtutor/raycasting.html
@@ -46,7 +47,7 @@ def rayCast(posX, posY, dirX, dirY, map, buffer):
     # get map tile to check
     mapX, mapY = int(posX), int(posY)
     # get direction to check tiles in 
-    stepX, stepY = sign(dirX), sign(dirY)
+    stepX, stepY = utilities.sign(dirX), utilities.sign(dirY)
     # get distance between successive x and y intersections
     deltaDistX = math.inf if dirX == 0 else abs(1 / dirX)
     deltaDistY = math.inf if dirY == 0 else abs(1 / dirY)
