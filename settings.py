@@ -31,6 +31,7 @@ spriteList = []
 
 # enemy information
 enemyList = []
+enemySpeed = 0.01
 aggroDistance = 5
 enemyAttackRange = 1
 enemyDamage = 3.7

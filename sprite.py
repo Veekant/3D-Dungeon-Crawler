@@ -28,16 +28,20 @@ class sprite:
     # methods for sorting
     def __eq__(self, other):
         if not isinstance(other, sprite): return False
-        return self.distToPlayer == other.distToPlayer
+        return self.distToPlayer() == other.distToPlayer()
     
     def __lt__(self, other):
         if not isinstance(other, sprite): return False
-        return self.distToPlayer < other.distToPlayer
+        return self.distToPlayer() < other.distToPlayer()
     
     # gets distance to player
     def distToPlayer(self):
         player = settings.player
-        return ((self.x-player.x)**2 + (self.y-player.y)**2)**0.5
+        return sprite.distance(self.x, self.y, player.x, player.y)
+    
+    @staticmethod
+    def distance(x1, y1, x2, y2):
+        return ((x2-x1)**2 + (y2-y1)**2)**0.5
 
 class enemy(sprite):
 
@@ -57,20 +61,19 @@ class enemy(sprite):
         path = pathfinding.findPath(pos, cameraPos)
         if path != None and len(path)-1 <= settings.aggroDistance:
             target = (path[1][0] + 0.5, path[1][1] + 0.5) if len(path)>1 else cameraPos
-            self.moveToPoint(target)
+            if self.distToPlayer() > settings.enemyAttackRange:
+                self.moveToPoint(target)
 
     def moveToPoint(self, point):
         x, y = point[0], point[1]
-        dx, dy = sign(x - self.x), sign(y - self.y)
-        self.move(dx, dy)
+        distX, distY = (x - self.x), (y - self.y)
+        totalDist = sprite.distance(self.x, self.y, x, y)
+        dx, dy = distX/totalDist, distY/totalDist
+        self.moveAxis(dx, dy)
 
-    def move(self, dx, dy):
-        if dx == 0 or dy == 0:
-            self.x += dx * 0.01
-            self.y += dy * 0.01
-        else:
-            self.x += dx * (0.01 / 2**0.5)
-            self.y += dy * (0.01 / 2**0.5)
+    def moveAxis(self, dx, dy):
+        self.x += settings.enemySpeed * dx
+        self.y += settings.enemySpeed * dy
 
     def attack(self, player):
         if self.distToPlayer() < settings.enemyAttackRange:

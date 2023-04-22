@@ -31,7 +31,7 @@ def onStep(app):
     # print(app.player)
     for enemy in settings.enemyList:
         enemy.update()
-    pass
+    if settings.gameOver: app.stop()
 
 def onMouseMove(app, mouseX, mouseY):
     pass
