@@ -65,7 +65,7 @@ def getNeighborNodes(map, pos):
                 (map[neighborCol][neighborRow] == 0)):
                 # only add diagonals if it doesn't clip a corner
                 if dRow != 0 and dCol != 0:
-                    if map[currRow+dRow][currCol] == 0 and map[currRow][currCol+dCol] == 0:
+                    if map[neighborRow][currCol] == 0 and map[currRow][neighborCol] == 0:
                         neighborNodes.add((neighborCol, neighborRow))
                 # prevent adding current tile
                 elif dRow != 0 or dCol != 0:
