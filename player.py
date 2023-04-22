@@ -10,6 +10,7 @@ from cmu_graphics import *
 import settings
 import utilities
 import input
+import time
 
 
 # rotation matrix from https://en.wikipedia.org/wiki/Rotation_matrix
@@ -34,6 +35,7 @@ class player:
         self.stamina = settings.maxStamina
         self.special = settings.maxSpecial
         self.blocking = False
+        self.attackTimer = time.time()
 
     def __str__(self):
         return (f"Player at ({self.x},{self.y}) " +
@@ -65,16 +67,28 @@ class player:
         self.x += dx
         self.y += dy
 
+    # attack enemy
+    def attack(self, enemy):
+        # if cooldown over, attach enemy and reset cooldown
+        if time.time()-self.attackTimer > settings.attackCooldown:
+            enemy.attacked(self)
+            self.attackTimer = time.time()
+
+    # respond to getting attacked
     def attacked(self, enemy):
+        # if blocking reduce stamina
         if self.blocking and self.stamina > settings.enemyStaminaCost:
             self.stamina -= settings.enemyStaminaCost
+        # otherwise take damage
         else:
             self.health -= settings.enemyDamage
 
+        # if health below zero, game over
         if self.health <= 0: settings.gameOver = True
         if self.stamina <= 0: self.blocking = False
 
+        # calculate knockback from attack
         enemyDistVec = (enemy.x-self.x, enemy.y-self.y)
         normDistVec = utilities.normalizeVector(enemyDistVec)
-        knockbackVec = (normDistVec[0] * settings.knockback, normDistVec[1] * settings.knockback)
-        input.move(knockbackVec[0], knockbackVec[1])
+        knockbackVec = utilities.vecMultiply(settings.knockback, normDistVec)
+        input.moveAxis(self, knockbackVec[0], knockbackVec[1])

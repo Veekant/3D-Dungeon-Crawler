@@ -10,6 +10,7 @@ conversations
 import settings
 import pathfinding
 import utilities
+import input
 import time
 
 class sprite:
@@ -45,6 +46,7 @@ class enemy(sprite):
     def __init__(self, x, y, hScale, wScale, vScale, textureID):
         super().__init__(x, y, hScale, wScale, vScale, textureID)
         self.attackTimer = time.time()
+        self.health = settings.enemyHealth
         settings.enemyList.append(self)
 
     def update(self):
@@ -53,26 +55,51 @@ class enemy(sprite):
         self.attack(player)
 
     def moveToPlayer(self, player):
+        # finds path to player
         pos = (self.x, self.y)
         cameraPos = (player.x + player.dirX, player.y+player.dirY)
         path = pathfinding.findPath(pos, cameraPos)
+        # if path exists and player is close enough:
         if path != None and len(path)-1 <= settings.aggroDistance:
+            # move towards target
             target = (path[1][0] + 0.5, path[1][1] + 0.5) if len(path)>1 else cameraPos
             if self.distToPlayer() > settings.enemyAttackRange:
                 self.moveToPoint(target)
 
+    # moves in direction of point
     def moveToPoint(self, point):
         x, y = point[0], point[1]
         distX, distY = (x - self.x), (y - self.y)
         dx, dy = utilities.normalizeVector((distX, distY))
         self.moveAxis(dx, dy)
 
+    # moves along axes
     def moveAxis(self, dx, dy):
         self.x += settings.enemySpeed * dx
         self.y += settings.enemySpeed * dy
 
+    # attacks player if within range and cooldown not active
     def attack(self, player):
         if self.distToPlayer() < settings.enemyAttackRange:
             if time.time() - self.attackTimer >= settings.enemyAttackCooldown: 
                 player.attacked(self)
                 self.attackTimer = time.time()
+
+    # handles being attacked
+    def attacked(self, player):
+        # takes damage
+        self.health -= settings.damage
+        print(self.health)
+        # kill enemy if health at 0
+        if self.health <= 0: self.die()
+
+        # calculate knockback
+        enemyDistVec = (player.x-self.x, player.y-self.y)
+        normDistVec = utilities.normalizeVector(enemyDistVec)
+        knockbackVec = utilities.vecMultiply(settings.enemyKnockback, normDistVec)
+        input.moveAxis(self, knockbackVec[0], knockbackVec[1])
+    
+    # kills enemy by removing from lists
+    def die(self):
+        settings.spriteList.remove(self)
+        settings.enemyList.remove(self)

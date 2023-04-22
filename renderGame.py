@@ -94,17 +94,25 @@ def drawVertLine(x, dist, side, height):
     # draw line
     drawLine(x, top, x, bottom, fill=color, lineWidth=resolution)
 
+# draws all sprites to the screen
 def drawSprites(width, height, player, buffer):
+    # sort the sprite list by distance
     spriteList = sorted(settings.spriteList, reverse=True)
+    # loop through all sprites
     for sprite in spriteList:
+        # calculate distance to player
         spriteDistX, spriteDistY = (sprite.x - player.x), (sprite.y - player.y)
+        # determine coords on camera using matrix
         coeff = 1 / (player.planeX*player.dirY - player.dirX*player.planeY)
         spriteCameraX = coeff * (spriteDistX*player.dirY - spriteDistY*player.dirX)
         spriteCameraY = coeff * (-spriteDistX*player.planeY + spriteDistY*player.planeX)
+        # convert to screen coords
         spriteScreenX = (width/2) * (1 + spriteCameraX / spriteCameraY)
 
+        # scale factor
         vertScaleScreen = sprite.vertScale / spriteCameraY
 
+        # calculate width and height of sprite
         spriteWidth = abs(width / spriteCameraY) / sprite.widthScale
         spriteLeft = max(-spriteWidth/2 + spriteScreenX, 0)
         spriteRight = min(spriteWidth/2 + spriteScreenX, width)
@@ -115,7 +123,10 @@ def drawSprites(width, height, player, buffer):
 
         drawSprite(sprite.texID, width, spriteCameraY, spriteLeft, spriteRight, spriteTop, spriteBottom, buffer)
 
+# draw individual sprite
 def drawSprite(spriteID, width, depth, left, right, top, bottom, buffer):
+    # loop through x values
     for x in range(int(left), int(right)+1, resolution):
+        # if in front of camera, draw line
         if (0 < depth <= buffer[x]):
             drawLine(x, bottom, x, top, fill="green", lineWidth=resolution)

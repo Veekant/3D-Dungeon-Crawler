@@ -25,17 +25,27 @@ def move(hor, vert):
     # get direction components along axes
     dx = hor * player.dirX + vert * player.dirX
     dy = hor * player.dirY + vert * player.dirY
+    moveAxis(player, dx, dy)
+
+def moveAxis(entity, dx, dy):
+    map = settings.map
     # check first axis
-    player.moveAxis(dx, 0)
-    if map[int(player.x)][int(player.y)] == 0: return
+    entity.moveAxis(dx, 0)
+    if map[int(entity.x)][int(entity.y)] == 0: return
     # if failed, undo and try second axis
-    player.moveAxis(-dx, dy)
-    if map[int(player.x)][int(player.y)] == 0: return
+    entity.moveAxis(-dx, dy)
+    if map[int(entity.x)][int(entity.y)] == 0: return
     # if failed again, give up and cry probably
-    player.moveAxis(0, -dy)
+    entity.moveAxis(0, -dy)
 
 def attack():
     player = settings.player
+    # loop through all enemies
     for enemy in settings.enemyList:
-        if utilities.distance(player.x, player.y, enemy.x, enemy.y) < settings.playerAttackDist:
-            pass
+        # check if close enough
+        if utilities.distance(player.x, player.y, enemy.x, enemy.y) < settings.attackRange:
+            distVec = (enemy.x-player.x, enemy.y-player.y)
+            dirVec = (player.dirX, player.dirY)
+            # check if roughly facing the right direction
+            if utilities.dotProduct(distVec, dirVec) > 0:
+                player.attack(enemy)

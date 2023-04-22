@@ -8,7 +8,7 @@ draw enemies and npcs to map (TP2)
 from cmu_graphics import *
 import settings
 
-# code inspired by CS Academy (Tetris) but with a few adjustments
+# minimap inspired by CS Academy (Tetris) but with a few adjustments
 
 class minimap:
 
@@ -31,6 +31,7 @@ class minimap:
         tileTop = self.top + row * self.tileHeight
         return (tileLeft, tileTop)
     
+    # convert game coords to minimap coords
     def convertToBoardCoords(self, posX, posY):
         boardX = self.left + posX * self.tileWidth
         boardY = self.top + posY * self.tileHeight
@@ -46,7 +47,8 @@ class minimap:
         drawRect(tileLeft, tileTop, self.tileWidth, self.tileHeight,
              fill=color, border='black',
              borderWidth=self.borderWidth)
-
+        
+    # draws player on minimap
     def drawPlayer(self):
         player = settings.player
         scale = 0.5 * self.tileWidth
@@ -63,6 +65,7 @@ class minimap:
         drawLine(posX, posY, planeLX, planeLY)
         drawLine(posX, posY, planeRX, planeRY)
 
+    # draws every enemy as a red circle on the map
     def drawEnemies(self):
         enemyList = settings.enemyList
         for sprite in enemyList:
@@ -93,26 +96,32 @@ class statusBars:
     def __str__(self):
         return f"status bars at ({self.left, self.top}) with bar width {self.barWidth}"
     
+    # draw individual bar
     def drawBar(self, pos, val, maxVal):
+        # get left of bar
         if pos == 0: left = self.left
         elif pos == 1: left = self.left + self.width/2 - self.barWidth/2
         else: left = self.left + self.width - self.barWidth
-
+        # get bar heights
         maxBarHeight = self.height-self.textSize
         barHeight = (val/maxVal)*maxBarHeight
-
+        # get top of bar
         maxBarTop = self.top+self.textSize
         barTop = maxBarTop + (maxBarHeight-barHeight)
-
+        # draw status bar
         drawLabel(self.labels[pos], left+self.barWidth/2, self.top+self.textSize/2, size=self.textSize)
         drawRect(left, maxBarTop, self.barWidth, maxBarHeight, fill=None, borderWidth=1)
         drawRect(left, barTop, self.barWidth, barHeight, fill=self.colors[pos], borderWidth=0)
 
+    # draw all three bars
     def drawBars(self):
+        # draw background
         drawRect(self.left, self.top, self.width, self.height, fill='white')
+        # get bar values
         player = settings.player
         barVals = [player.health, player.stamina, player.special]
         maxBarVals = [settings.maxHealth, settings.maxStamina, settings.maxSpecial]
+        # draw each bar
         for i in range(3):
             self.drawBar(i, barVals[i], maxBarVals[i])
 

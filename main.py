@@ -26,18 +26,22 @@ def redrawAll(app):
     endTime = time.time()
     fps = int(1 / (endTime - startTime))
     drawLabel(fps, 20, 20, size=12)
+    # temp victory condition
+    if len(settings.enemyList) == 0:
+        drawLabel("YOU WIN (for now)", app.width//2, app.height//2, size=50)
 
 def onStep(app):
-    # print(app.player)
+    # update each enemy
     for enemy in settings.enemyList:
         enemy.update()
+    # temp game over state
     if settings.gameOver: app.stop()
 
 def onMouseMove(app, mouseX, mouseY):
     pass
 
 def onMousePress(app, mouseX, mouseY):
-    pass
+    input.attack()
 
 def onKeyPress(app, key):
     if key == 'escape': app.stop()
