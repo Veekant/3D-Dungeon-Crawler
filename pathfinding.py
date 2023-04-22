@@ -60,12 +60,17 @@ def getNeighborNodes(map, pos):
     for dCol in [-1, 0, 1]:
         for dRow in [-1, 0, 1]:
             neighborRow, neighborCol = currRow + dRow, currCol + dCol
-            # make sure neighbor is different than current, within map, and walkable
-            if ((dRow != 0 or dCol != 0) and
-                (0 <= neighborRow < rows) and
+            # make sure neighbor is within map and walkable
+            if ((0 <= neighborRow < rows) and
                 (0 <= neighborCol < cols) and
                 (map[neighborCol][neighborRow] == 0)):
-                neighborNodes.add((neighborCol, neighborRow))
+                # only add diagonals if it doesn't clip a corner
+                if dRow != 0 and dCol != 0:
+                    if map[currRow+dRow][currCol] == 0 and map[currRow][currCol+dCol] == 0:
+                        neighborNodes.add((neighborCol, neighborRow))
+                # prevent adding current tile
+                elif dRow != 0 or dCol != 0:
+                    neighborNodes.add((neighborCol, neighborRow))
     return neighborNodes
 
 # gets path from end

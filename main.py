@@ -24,12 +24,6 @@ def redrawAll(app):
     endTime = time.time()
     fps = int(1 / (endTime - startTime))
     drawLabel(fps, 20, 20, size=12)
-    '''
-    posLabel  = f"({int(app.player.x)},{int(app.player.y)})"
-    tileLabel = f"{app.map[int(app.player.x)][int(app.player.y)]}"
-    drawLabel(posLabel, 20, 40, size=12)
-    drawLabel(tileLabel, 20, 60, size=12)
-    '''
 
 def onStep(app):
     # print(app.player)

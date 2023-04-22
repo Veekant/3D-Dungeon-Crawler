@@ -44,8 +44,31 @@ class character(sprite):
         super().__init__(x, y, hScale, wScale, vScale, textureID)
         settings.enemyList.append(self)
 
+    def moveToPoint(self, point):
+        x, y = point[0], point[1]
+        dx, dy = character.sign(x - self.x), character.sign(y - self.y)
+        self.move(dx, dy)
+
+    def move(self, dx, dy):
+        if dx == 0 or dy == 0:
+            self.x += dx * 0.01
+            self.y += dy * 0.01
+        else:
+            self.x += dx * (0.01 / 2**0.5)
+            self.y += dy * (0.01 / 2**0.5)
+
     def update(self):
         if self.distToPlayer() < 10:
             player = settings.player
-            path = pathfinding.findPath((self.x, self.y), (player.x,player.y))
-            print(path)
+            pos = (self.x, self.y)
+            playerPos = (player.x, player.y)
+            path = pathfinding.findPath(pos, playerPos)
+            if path != None:
+                target = (path[1][0] + 0.5, path[1][1] + 0.5) if len(path)>1 else playerPos
+                self.moveToPoint(target)
+    
+    @staticmethod
+    def sign(num):
+        if num > 0: return 1
+        if num < 0: return -1
+        return 0
