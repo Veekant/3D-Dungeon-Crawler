@@ -47,6 +47,7 @@ class enemy(sprite):
     def update(self):
         player = settings.player
         self.moveToPlayer(player)
+        self.attack(player)
 
     def moveToPlayer(self, player):
         pos = (self.x, self.y)
@@ -68,6 +69,10 @@ class enemy(sprite):
         else:
             self.x += dx * (0.01 / 2**0.5)
             self.y += dy * (0.01 / 2**0.5)
+
+    def attack(self, player):
+        if self.distToPlayer() < settings.enemyAttackRange:
+            player.health = (player.health - 5) % settings.maxHealth
     
 def sign(num):
     if num > 0: return 1

@@ -27,6 +27,11 @@ class player:
         self.planeX = -a * self.dirY
         self.planeY = a * self.dirX
 
+        self.health = settings.maxHealth
+        self.stamina = settings.maxStamina
+        self.special = settings.maxSpecial
+
+
     def __str__(self):
         return (f"Player at ({self.x},{self.y}) " +
                 f"facing ({self.dirX},{self.dirY}) " +

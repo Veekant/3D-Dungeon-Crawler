@@ -2,7 +2,7 @@ from cmu_graphics import *
 import settings
 import load
 import player
-import minimap
+import hud
 import sprite
 import renderGame
 import input
@@ -14,13 +14,15 @@ def onAppStart(app):
     app.stepsPerSecond = settings.fps
     settings.map = load.loadMap("map1")
     settings.player = player.player(1.5, 1.5, math.pi)
-    settings.minimap = minimap.minimap(app.width-200, app.height-200, 200, 200)
+    settings.minimap = hud.minimap(app.width-200, app.height-200, 200, 200)
+    settings.statusBars = hud.statusBars(0, app.height-200, 300, 200, 75, 12)
     testEnemy = sprite.enemy(3.5, 4.5, 3, 3, 250, None)
 
 def redrawAll(app):
     startTime = time.time()
     renderGame.render()
     settings.minimap.drawMap()
+    settings.statusBars.drawBars()
     endTime = time.time()
     fps = int(1 / (endTime - startTime))
     drawLabel(fps, 20, 20, size=12)
