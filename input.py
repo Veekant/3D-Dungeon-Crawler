@@ -1,9 +1,23 @@
 '''
 might handle some input stuff here
 '''
+
+from pyglet import *
 import settings
 import utilities
 import math
+
+def onKeyPress(window, key):
+    if key == 'ESCAPE': window.close()
+
+def onKeyHold(keys):
+    if keys[window.key.Q]: rotate(-0.05)
+    elif keys[window.key.E]: rotate(0.05)
+
+    if keys[window.key.W]: move(0, 1/30)
+    elif keys[window.key.A]: move(1/30, 0)
+    elif keys[window.key.S]: move(0, -1/30)
+    elif keys[window.key.D]: move(-1/30, 0)
 
 # call player rotate method
 def rotate(direction):

@@ -7,7 +7,7 @@ floor/ceiling rendering (TP3)
 
 '''
 from cmu_graphics import *
-import pyglet
+from pyglet import *
 import settings
 import utilities
 import math
@@ -21,15 +21,15 @@ maxViewDistance = 150
 wallColors = [(112, 128, 144, 255), (119, 136, 153, 255)]
 ceilingColor = (105, 105, 105, 255)
 floorColor = (186, 140, 99, 255)
-batch = pyglet.graphics.Batch()
+batch = graphics.Batch()
 
 # main render function
 def render():
     width, height = settings.width, settings.height
     player, map = settings.player, settings.map
     # draw floor and ceiling
-    floor = pyglet.shapes.Rectangle(0, 0, width, height//2, color=floorColor, batch=batch)
-    ceiling = pyglet.shapes.Rectangle(0, height//2, width, height//2, color=ceilingColor, batch=batch)
+    floor = shapes.Rectangle(0, 0, width, height//2, color=floorColor, batch=batch)
+    ceiling = shapes.Rectangle(0, height//2, width, height//2, color=ceilingColor, batch=batch)
     zBuffer = []
     lineList = []
     # loop through pixel x-values on screen
@@ -41,7 +41,7 @@ def render():
         rayDirY = player.dirY + adjX * player.planeY
         # cast ray and draw line
         dist, side = rayCast(player.x, player.y, rayDirX, rayDirY, map, zBuffer)
-        drawVertLine(x, dist, side, height, lineList, batch)
+        drawVertLine(x, dist, side, height, lineList)
     batch.draw()
     
     # drawSprites(width, height, player, zBuffer)
@@ -87,7 +87,7 @@ def sign(num):
     else: return 1
 
 # draw vertical line on screen
-def drawVertLine(x, dist, side, height, lineList, batch):
+def drawVertLine(x, dist, side, height, lineList):
     # calculate line of height
     lineHeight = height/dist if dist != 0 else math.inf
     # find top and bottom of line
@@ -97,7 +97,7 @@ def drawVertLine(x, dist, side, height, lineList, batch):
     color = wallColors[side]
     # draw line
     # drawLine(x, top, x, bottom, fill=color, lineWidth=resolution)
-    vertLine = pyglet.shapes.Line(x, bottom, x, top, width=resolution, color=color, batch=batch)
+    vertLine = shapes.Line(x, bottom, x, top, width=resolution, color=color, batch=batch)
     lineList.append(vertLine)
 
 # draws all sprites to the screen

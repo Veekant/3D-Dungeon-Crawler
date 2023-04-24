@@ -1,6 +1,5 @@
 from cmu_graphics import *
-import pyglet
-from pyglet import key
+from pyglet import *
 import settings
 import load
 import player
@@ -64,38 +63,39 @@ def main():
 main()
 '''
 
-settings.game_window = pyglet.window.Window(fullscreen=True)
-batch = pyglet.graphics.Batch()
+game_window = window.Window(fullscreen=True)
+keys = window.key.KeyStateHandler()
+fps_display = window.FPSDisplay(window=game_window)
+batch = graphics.Batch()
 
 def onAppStart():
-    settings.width, settings.height = settings.game_window.get_size()
-    settings.game_window.set_exclusive_mouse(True)
+    settings.width, settings.height = game_window.get_size()
+    game_window.set_exclusive_mouse(True)
 
     settings.map = load.loadMap("map1")
     settings.player = player.player(1.5, 1.5, math.pi)
-    settings.minimap = hud.minimap(app.width-200, app.height-200, 200, 200)
-    settings.statusBars = hud.statusBars(0, app.height-200, 300, 200, 75, 12)
+    settings.minimap = hud.minimap(settings.width-200, settings.height-200, 200, 200)
+    settings.statusBars = hud.statusBars(0, settings.height-200, 300, 200, 75, 12)
     testEnemy = sprite.enemy(3.5, 4.5, 3, 3, 250, None)
 
-@settings.game_window.event
+@game_window.event
 def on_draw():
-    settings.game_window.clear()
+    game_window.clear()
     renderGame.render()
+    fps_display.draw()
 
-'''
-@settings.game_window.event
+@game_window.event
 def on_key_press(symbol, modifiers):
-    if key.Q == symbol: input.rotate(-0.05)
-    elif key.E == symbol: input.rotate(0.05)
+    key = window.key.symbol_string(symbol)
+    input.onKeyPress(game_window, key)
 
-    if key.W == symbol: input.move(0, 1/30)
-    elif key.A == symbol: input.move(1/30, 0)
-    elif key.S == symbol: input.move(0, -1/30)
-    elif key.D == symbol: input.move(-1/30, 0)
-'''
+def update(dt):
+    game_window.push_handlers(keys)
+    input.onKeyHold(keys)
+clock.schedule_interval(update, 1/60)
 
 def main():
     onAppStart()
-    pyglet.app.run()
+    app.run()
 
 main()
