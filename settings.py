@@ -7,9 +7,10 @@ Add more settings as stuff is added
 '''
 
 # app information
-width = 1280
-height = 720
-fps = 60
+game_window = None
+batch = None
+width = None
+height = None
 
 # game information
 player = None
