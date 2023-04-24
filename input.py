@@ -11,19 +11,25 @@ def onKeyPress(window, key):
     if key == 'ESCAPE': window.close()
 
 def onKeyHold(keys, dt):
-    dTheta = settings.lookSpeed * dt
-    if keys[window.key.Q]: rotate(-dTheta)
-    elif keys[window.key.E]: rotate(dTheta)
-    
-    dr = settings.speed * dt
-    if keys[window.key.W]: move(0, dr)
-    elif keys[window.key.A]: move(dr, 0)
-    elif keys[window.key.S]: move(0, -dr)
-    elif keys[window.key.D]: move(-dr, 0)
+    dir = [0, 0]
+    if keys[window.key.W]: dir[1] = 1
+    elif keys[window.key.S]: dir[1] = -1
+    if keys[window.key.A]: dir[0] = 1
+    elif keys[window.key.D]: dir[0] = -1
+
+    if dir != [0, 0]:
+        normDir = utilities.normalizeVector(dir)
+        dr = settings.speed * dt
+        dir = utilities.vecMultiply(dr, normDir)
+        move(dir[0], dir[1])
 
 def onMouseMove(mouseX, mouseY, dx, dy):
-    dTheta = settings.lookSpeed * math.atan2(dx, 1)
+    dTheta = settings.sensitivity * math.atan2(dx/settings.width, 1)
     rotate(dTheta)
+
+def onMousePress(mouseX, mouseY, button, modifiers):
+    if button == window.mouse.LEFT:
+        attack()
 
 # call player rotate method
 def rotate(direction):

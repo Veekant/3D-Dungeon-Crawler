@@ -16,20 +16,20 @@ import math
 # sprite raycasting algorithm from https://lodev.org/cgtutor/raycasting3.html
 
 # initialize basic rendering vars (will move into settings later)
-resolution = 6
+resolution = 4
 maxViewDistance = 150
 wallColors = [(112, 128, 144, 255), (119, 136, 153, 255)]
 ceilingColor = (105, 105, 105, 255)
 floorColor = (186, 140, 99, 255)
-batch = graphics.Batch()
 
 # main render function
 def render():
     width, height = settings.width, settings.height
     player, map = settings.player, settings.map
+    mainBatch = graphics.Batch()
     # draw floor and ceiling
-    floor = shapes.Rectangle(0, 0, width, height//2, color=floorColor, batch=batch)
-    ceiling = shapes.Rectangle(0, height//2, width, height//2, color=ceilingColor, batch=batch)
+    floor = shapes.Rectangle(0, 0, width, height//2, color=floorColor, batch=mainBatch)
+    ceiling = shapes.Rectangle(0, height//2, width, height//2, color=ceilingColor, batch=mainBatch)
     zBuffer = []
     lineList = []
     # loop through pixel x-values on screen
@@ -41,10 +41,10 @@ def render():
         rayDirY = player.dirY + adjX * player.planeY
         # cast ray and draw line
         dist, side = rayCast(player.x, player.y, rayDirX, rayDirY, map, zBuffer)
-        drawVertLine(x, dist, side, height, lineList)
-    batch.draw()
+        drawVertLine(x, dist, side, height, lineList, mainBatch)
+    mainBatch.draw()
     
-    # drawSprites(width, height, player, zBuffer)
+    drawSprites(width, height, player, zBuffer)
 
 # function that handles casting 1 ray
 def rayCast(posX, posY, dirX, dirY, map, buffer):
@@ -87,7 +87,7 @@ def sign(num):
     else: return 1
 
 # draw vertical line on screen
-def drawVertLine(x, dist, side, height, lineList):
+def drawVertLine(x, dist, side, height, lineList, batch):
     # calculate line of height
     lineHeight = height/dist if dist != 0 else math.inf
     # find top and bottom of line
@@ -96,7 +96,6 @@ def drawVertLine(x, dist, side, height, lineList):
     # get color
     color = wallColors[side]
     # draw line
-    # drawLine(x, top, x, bottom, fill=color, lineWidth=resolution)
     vertLine = shapes.Line(x, bottom, x, top, width=resolution, color=color, batch=batch)
     lineList.append(vertLine)
 
@@ -116,7 +115,7 @@ def drawSprites(width, height, player, buffer):
         spriteScreenX = (width/2) * (1 + spriteCameraX / spriteCameraY)
 
         # scale factor
-        vertScaleScreen = sprite.vertScale / spriteCameraY
+        vertScaleScreen = -sprite.vertScale / spriteCameraY
 
         # calculate width and height of sprite
         spriteWidth = abs(width / spriteCameraY) / sprite.widthScale
@@ -124,15 +123,19 @@ def drawSprites(width, height, player, buffer):
         spriteRight = min(spriteWidth/2 + spriteScreenX, width)
 
         spriteHeight = abs(height / spriteCameraY) / sprite.heightScale
-        spriteTop = max(-spriteHeight/2 + height/2 + vertScaleScreen, 0)
-        spriteBottom = min(spriteHeight/2 + height/2 + vertScaleScreen, height)
+        spriteBottom = max(-spriteHeight/2 + height/2 + vertScaleScreen, 0)
+        spriteTop = min(spriteHeight/2 + height/2 + vertScaleScreen, height)
 
-        drawSprite(sprite.texID, width, spriteCameraY, spriteLeft, spriteRight, spriteTop, spriteBottom, buffer)
+        drawSprite(sprite.texID, width, spriteCameraY, spriteLeft, spriteRight, spriteBottom, spriteTop, buffer)
 
 # draw individual sprite
-def drawSprite(spriteID, width, depth, left, right, top, bottom, buffer):
+def drawSprite(spriteID, width, depth, left, right, bottom, top, buffer):
+    spriteBatch = graphics.Batch()
+    lineList = []
     # loop through x values
     for x in range(int(left), int(right)+1, resolution):
         # if in front of camera, draw line
         if (0 < depth <= buffer[x]):
-            drawLine(x, bottom, x, top, fill="green", lineWidth=resolution)
+            vertLine = shapes.Line(x, bottom, x, top, width=resolution, color=(0,255,0,255), batch=spriteBatch)
+            lineList.append(vertLine)
+    spriteBatch.draw()

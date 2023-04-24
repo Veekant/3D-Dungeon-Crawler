@@ -22,7 +22,7 @@ gameOver = False
 # player information
 fov = 65
 speed = 1.5
-lookSpeed = 1
+sensitivity = 0.75
 maxHealth = 100
 maxStamina = 100
 maxSpecial = 100
