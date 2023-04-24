@@ -89,9 +89,14 @@ def on_key_press(symbol, modifiers):
     key = window.key.symbol_string(symbol)
     input.onKeyPress(game_window, key)
 
+@game_window.event
+def on_mouse_motion(x, y, dx, dy):
+    print(dx, dy)
+    input.onMouseMove(x, y, dx, dy)
+
 def update(dt):
     game_window.push_handlers(keys)
-    input.onKeyHold(keys)
+    input.onKeyHold(keys, dt)
 clock.schedule_interval(update, 1/60)
 
 def main():

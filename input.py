@@ -10,14 +10,20 @@ import math
 def onKeyPress(window, key):
     if key == 'ESCAPE': window.close()
 
-def onKeyHold(keys):
-    if keys[window.key.Q]: rotate(-0.05)
-    elif keys[window.key.E]: rotate(0.05)
+def onKeyHold(keys, dt):
+    dTheta = settings.lookSpeed * dt
+    if keys[window.key.Q]: rotate(-dTheta)
+    elif keys[window.key.E]: rotate(dTheta)
+    
+    dr = settings.speed * dt
+    if keys[window.key.W]: move(0, dr)
+    elif keys[window.key.A]: move(dr, 0)
+    elif keys[window.key.S]: move(0, -dr)
+    elif keys[window.key.D]: move(-dr, 0)
 
-    if keys[window.key.W]: move(0, 1/30)
-    elif keys[window.key.A]: move(1/30, 0)
-    elif keys[window.key.S]: move(0, -1/30)
-    elif keys[window.key.D]: move(-1/30, 0)
+def onMouseMove(mouseX, mouseY, dx, dy):
+    dTheta = settings.lookSpeed * math.atan2(dx, 1)
+    rotate(dTheta)
 
 # call player rotate method
 def rotate(direction):

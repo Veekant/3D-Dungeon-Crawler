@@ -21,7 +21,7 @@ gameOver = False
 
 # player information
 fov = 65
-speed = 5
+speed = 1.5
 lookSpeed = 1
 maxHealth = 100
 maxStamina = 100

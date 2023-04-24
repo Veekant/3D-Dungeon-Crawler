@@ -16,7 +16,7 @@ import math
 # sprite raycasting algorithm from https://lodev.org/cgtutor/raycasting3.html
 
 # initialize basic rendering vars (will move into settings later)
-resolution = 8
+resolution = 6
 maxViewDistance = 150
 wallColors = [(112, 128, 144, 255), (119, 136, 153, 255)]
 ceilingColor = (105, 105, 105, 255)
