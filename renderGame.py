@@ -129,12 +129,15 @@ def drawSprites(width, height, player, buffer):
         spriteBottom = max(-spriteHeight/2 + height/2 + vertScaleScreen, 0)
         spriteTop = min(spriteHeight/2 + height/2 + vertScaleScreen, height)
 
-        drawSprite(spriteImg, spriteWidth, spriteHeight, spriteCameraY, spriteLeft, spriteRight, spriteBottom, spriteTop, buffer)
+        if (spriteLeft >= 0 and spriteRight <= width and 
+            spriteBottom >= 0 and spriteTop <= height):
+            drawSprite(spriteImg, spriteCameraY, spriteLeft, spriteRight, 
+                       spriteBottom, spriteTop, buffer)
 
 # draw individual sprite
-def drawSprite(img, width, height, depth, left, right, bottom, top, buffer):
+def drawSprite(img, depth, left, right, bottom, top, buffer):
     spriteBatch = graphics.Batch()
-    scale = img.height/height
+    scale = img.height/(top-bottom)
     stripeStartIndex = 0
     stripeList = []
     # loop through x values
@@ -146,8 +149,7 @@ def drawSprite(img, width, height, depth, left, right, bottom, top, buffer):
             if imgStripeStart+imgStripeWidth > img.width: imgStripeWidth = 0
             stripeImg = img.get_region(imgStripeStart, 0, imgStripeWidth, img.height)
             stripeSprite = sprite.Sprite(stripeImg, x, bottom, batch=spriteBatch)
-            print(imgStripeWidth)
-            stripeSprite.scale = (top-bottom)/img.height
+            stripeSprite.scale = 1/scale
             stripeList.append(stripeSprite)
         stripeStartIndex += 1
     spriteBatch.draw()

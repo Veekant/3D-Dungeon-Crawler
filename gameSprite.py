@@ -90,7 +90,6 @@ class enemy(sprite):
     def attacked(self, player):
         # takes damage
         self.health -= settings.damage
-        print(self.health)
         # kill enemy if health at 0
         if self.health <= 0: self.die()
 

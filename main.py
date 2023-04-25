@@ -27,7 +27,7 @@ def onAppStart():
     settings.player = player.player(1.5, 1.5, math.pi)
     settings.minimap = hud.minimap(settings.width-200, 0, 200, 200)
     settings.statusBars = hud.statusBars(0, 0, 300, 200, 75, 12)
-    testEnemy = gameSprite.enemy(3.5, 4.5, 2.5, 400, 5)
+    testEnemy = gameSprite.enemy(3.5, 4.5, 2.5, 400, 6)
 
 @game_window.event
 def on_draw():
