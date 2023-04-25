@@ -41,7 +41,8 @@ def render():
         rayDirY = player.dirY + adjX * player.planeY
         # cast ray and draw line
         dist, side = rayCast(player.x, player.y, rayDirX, rayDirY, map, zBuffer)
-        drawVertLine(x, dist, side, height, lineList, mainBatch)
+        line = drawVertLine(mainBatch, x, dist, side, height)
+        lineList.append(line)
     mainBatch.draw()
     
     drawSprites(width, height, player, zBuffer)
@@ -87,7 +88,7 @@ def sign(num):
     else: return 1
 
 # draw vertical line on screen
-def drawVertLine(x, dist, side, height, lineList, batch):
+def drawVertLine(batch, x, dist, side, height):
     # calculate line of height
     lineHeight = height/dist if dist != 0 else math.inf
     # find top and bottom of line
@@ -97,7 +98,7 @@ def drawVertLine(x, dist, side, height, lineList, batch):
     color = wallColors[side]
     # draw line
     vertLine = shapes.Line(x, bottom, x, top, width=resolution, color=color, batch=batch)
-    lineList.append(vertLine)
+    return vertLine
 
 # draws all sprites to the screen
 def drawSprites(width, height, player, buffer):

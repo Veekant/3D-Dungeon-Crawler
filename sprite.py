@@ -49,12 +49,12 @@ class enemy(sprite):
         self.health = settings.enemyHealth
         settings.enemyList.append(self)
 
-    def update(self):
+    def update(self, dt):
         player = settings.player
-        self.moveToPlayer(player)
-        self.attack(player)
+        self.moveToPlayer(player, dt)
+        self.attack(player, dt)
 
-    def moveToPlayer(self, player):
+    def moveToPlayer(self, player, dt):
         # finds path to player
         pos = (self.x, self.y)
         cameraPos = (player.x + player.dirX, player.y+player.dirY)
@@ -64,22 +64,24 @@ class enemy(sprite):
             # move towards target
             target = (path[1][0] + 0.5, path[1][1] + 0.5) if len(path)>1 else cameraPos
             if self.distToPlayer() > settings.enemyAttackRange:
-                self.moveToPoint(target)
+                self.moveToPoint(target, dt)
 
     # moves in direction of point
-    def moveToPoint(self, point):
+    def moveToPoint(self, point, dt):
         x, y = point[0], point[1]
         distX, distY = (x - self.x), (y - self.y)
-        dx, dy = utilities.normalizeVector((distX, distY))
+        dirX, dirY = utilities.normalizeVector((distX, distY))
+        dx = settings.enemySpeed * dt * dirX
+        dy = settings.enemySpeed * dt * dirY  
         self.moveAxis(dx, dy)
 
     # moves along axes
     def moveAxis(self, dx, dy):
-        self.x += settings.enemySpeed * dx
-        self.y += settings.enemySpeed * dy
+        self.x += dx
+        self.y += dy
 
     # attacks player if within range and cooldown not active
-    def attack(self, player):
+    def attack(self, player, dt):
         if self.distToPlayer() < settings.enemyAttackRange:
             if time.time() - self.attackTimer >= settings.enemyAttackCooldown: 
                 player.attacked(self)

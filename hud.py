@@ -6,17 +6,24 @@ draw enemies and npcs to map (TP2)
 '''
 
 from cmu_graphics import *
+from pyglet import *
 import settings
 
-# minimap inspired by CS Academy (Tetris) but with a few adjustments
+black = (0, 0, 0, 255)
+red = (255, 0, 0, 255)
+green = (0, 255, 0, 255)
+blue = (0, 0, 255, 255)
+yellow = (255, 255, 0)
+white = (255, 255, 255, 255)
 
+# minimap inspired by CS Academy (Tetris) but with a few adjustments
 class minimap:
 
-    def __init__(self, left, top, width, height):
+    def __init__(self, left, bottom, width, height):
         map = settings.map
         self.rows, self.cols = len(map), len(map[0])
         self.left = left
-        self.top = top
+        self.bottom = bottom
         self.width = width
         self.height = height
         self.tileWidth = self.width / self.cols
@@ -24,104 +31,127 @@ class minimap:
         self.borderWidth = 1
 
     def __str__(self):
-        return f"map at ({self.left, self.top} with {self.rows} rows and {self.cols} cols)"
+        return f"map at ({self.left, self.bottom} with {self.rows} rows and {self.cols} cols)"
     
-    def getTileCorner(self, row, col):
+    def getTileCorner(self, col, row):
         tileLeft = self.left + col * self.tileWidth
-        tileTop = self.top + row * self.tileHeight
-        return (tileLeft, tileTop)
+        tileBottom = self.bottom + (self.rows-row-1) * self.tileHeight
+        return (tileLeft, tileBottom)
     
     # convert game coords to minimap coords
     def convertToBoardCoords(self, posX, posY):
         boardX = self.left + posX * self.tileWidth
-        boardY = self.top + posY * self.tileHeight
+        boardY = self.bottom + (self.rows-posY) * self.tileHeight
         return (boardX, boardY)
     
-    def drawBorder(self):
-        drawRect(self.left, self.top, self.width, self.height,
-           fill=None, border='black',
-           borderWidth=2*self.borderWidth)
+    def drawBorder(self, batch):
+        border = shapes.BorderedRectangle(self.left, self.bottom, self.width, self.height, 
+                                          border=2*self.borderWidth, color=white, 
+                                          border_color=black, batch=batch)
+        border.opacity = 0
+        return border
         
-    def drawTile(self, row, col, color):
-        tileLeft, tileTop = self.getTileCorner(row, col)
-        drawRect(tileLeft, tileTop, self.tileWidth, self.tileHeight,
-             fill=color, border='black',
-             borderWidth=self.borderWidth)
+    def drawTile(self, batch, col, row, color):
+        tileLeft, tileBottom = self.getTileCorner(col, row)
+        tile = shapes.BorderedRectangle(tileLeft, tileBottom, self.tileWidth, self.tileHeight, 
+                                          border=self.borderWidth, color=color, 
+                                          border_color=black, batch=batch)
+        return tile
         
     # draws player on minimap
-    def drawPlayer(self):
+    def drawPlayer(self, batch):
         player = settings.player
         scale = 0.5 * self.tileWidth
         posX, posY = self.convertToBoardCoords(player.x, player.y)
-        dirPlaneX, dirPlaneY = posX + scale * player.dirX, posY + scale * player.dirY
-
-        drawCircle(posX, posY, 0.4*scale)
-        drawLine(posX, posY, dirPlaneX, dirPlaneY)
-
-        planeLX, planeLY = dirPlaneX - scale * player.planeX, dirPlaneY - scale * player.planeY
-        planeRX, planeRY = dirPlaneX + scale * player.planeX, dirPlaneY + scale * player.planeY
-        drawLine(dirPlaneX, dirPlaneY, planeLX, planeLY)
-        drawLine(dirPlaneX, dirPlaneY, planeRX, planeRY)
-        drawLine(posX, posY, planeLX, planeLY)
-        drawLine(posX, posY, planeRX, planeRY)
+        dirX, dirY = posX + 2*scale * player.dirX, posY - 2*scale * player.dirY
+        posLX, posLY = posX - scale * player.planeX, posY + scale * player.planeY
+        posRX, posRY = posX + scale * player.planeX, posY - scale * player.planeY
+        playerIndicator = shapes.Triangle(dirX, dirY, posLX, posLY, posRX, posRY,
+                                          color=black, batch=batch)
+        return playerIndicator
 
     # draws every enemy as a red circle on the map
-    def drawEnemies(self):
+    def drawEnemies(self, batch):
+        enemyDotList = []
         enemyList = settings.enemyList
         for sprite in enemyList:
             spriteX, spriteY = self.convertToBoardCoords(sprite.x, sprite.y)
-            drawCircle(spriteX, spriteY, 0.15*self.tileWidth, fill='red')
+            enemyDot = shapes.Circle(spriteX, spriteY, 0.15*self.tileWidth, 
+                                     color=red, batch=batch)
+            enemyDotList.append(enemyDot)
+        return enemyDotList
         
-    def drawMap(self):
+    def drawMap(self, batch):
         map = settings.map
+        border = self.drawBorder(batch)
+        tileList = []
         for col in range(self.cols):
             for row in range(self.rows):
-                color = 'blue' if map[col][row] == 1 else 'white'
-                self.drawTile(row, col, color)
-        self.drawPlayer()
-        self.drawEnemies()
+                color = blue if map[col][row] == 1 else white
+                tile = self.drawTile(batch, col, row, color)
+                tileList.append(tile)
+        return border, tileList
+
+    def draw(self):
+        mapBatch = graphics.Batch()
+        border, tileList = self.drawMap(mapBatch)
+        playerIndicator = self.drawPlayer(mapBatch)
+        enemyDotList = self.drawEnemies(mapBatch)
+        mapBatch.draw()
 
 class statusBars:
 
-    def __init__(self, left, top, width, height, barWidth, textSize):
+    def __init__(self, left, bottom, width, height, barWidth, textSize):
         self.left = left
-        self.top = top
+        self.bottom = bottom
         self.width = width
         self.height = height
         self.barWidth = barWidth
         self.textSize = textSize
-        self.colors = ['red', 'green', 'yellow']
+        self.colors = [red, green, yellow]
         self.labels = ['HP', 'ST', 'SP']
 
     def __str__(self):
         return f"status bars at ({self.left, self.top}) with bar width {self.barWidth}"
     
     # draw individual bar
-    def drawBar(self, pos, val, maxVal):
+    def drawBar(self, batch, pos, val, maxVal):
         # get left of bar
-        if pos == 0: left = self.left
+        if pos == 0: left = 2 + self.left
         elif pos == 1: left = self.left + self.width/2 - self.barWidth/2
-        else: left = self.left + self.width - self.barWidth
+        else: left = self.left + self.width - self.barWidth - 2
         # get bar heights
         maxBarHeight = self.height-self.textSize
         barHeight = (val/maxVal)*maxBarHeight
-        # get top of bar
-        maxBarTop = self.top+self.textSize
-        barTop = maxBarTop + (maxBarHeight-barHeight)
-        # draw status bar
-        drawLabel(self.labels[pos], left+self.barWidth/2, self.top+self.textSize/2, size=self.textSize)
-        drawRect(left, maxBarTop, self.barWidth, maxBarHeight, fill=None, borderWidth=1)
-        drawRect(left, barTop, self.barWidth, barHeight, fill=self.colors[pos], borderWidth=0)
+        # bruh
+        label = text.Label(self.labels[pos], font_name='Times New Roman',
+                          font_size=self.textSize, bold=True,
+                          x=left+self.barWidth//2, y=self.bottom+2,
+                          anchor_x='center', anchor_y='bottom',
+                          batch=batch)
+        bar = shapes.Rectangle(left, self.bottom+2, self.barWidth, barHeight,
+                               color=self.colors[pos], batch=batch)
+        barOutline = shapes.BorderedRectangle(left, self.bottom+2, self.barWidth, maxBarHeight,
+                                              border=2, color=white, border_color=black,
+                                              batch=batch)
+        barOutline.opacity = 0
+        return (label, barOutline, bar)
 
     # draw all three bars
     def drawBars(self):
+        barsBatch = graphics.Batch()
+        barList = []
         # draw background
-        drawRect(self.left, self.top, self.width, self.height, fill='white')
+        background = shapes.BorderedRectangle(self.left, self.bottom, self.width, self.height,
+                                              border=2, color=white, border_color=black,
+                                              batch=barsBatch)
         # get bar values
         player = settings.player
         barVals = [player.health, player.stamina, player.special]
         maxBarVals = [settings.maxHealth, settings.maxStamina, settings.maxSpecial]
         # draw each bar
         for i in range(3):
-            self.drawBar(i, barVals[i], maxBarVals[i])
+            bar = self.drawBar(barsBatch, i, barVals[i], maxBarVals[i])
+            barList.append(bar)
+        barsBatch.draw()
 

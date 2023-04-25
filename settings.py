@@ -7,10 +7,9 @@ Add more settings as stuff is added
 '''
 
 # app information
-game_window = None
-batch = None
 width = None
 height = None
+fps = 60
 
 # game information
 player = None
@@ -37,7 +36,7 @@ spriteList = []
 # enemy information
 enemyList = []
 enemyHealth = 65
-enemySpeed = 0.01
+enemySpeed = 1
 aggroDistance = 5
 enemyAttackRange = 1
 enemyDamage = 3.7
