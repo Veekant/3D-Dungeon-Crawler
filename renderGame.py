@@ -121,7 +121,7 @@ def drawSprites(width, height, player, buffer):
         spriteImg = settings.spriteFiles[sprite.texID]
 
         # calculate width and height of sprite
-        spriteWidth = abs(width / spriteCameraY) / sprite.widthScale
+        spriteWidth = abs(width / spriteCameraY) / sprite.scale
         spriteLeft = max(-spriteWidth/2 + spriteScreenX, 0)
         spriteRight = min(spriteWidth/2 + spriteScreenX, width)
 
@@ -129,17 +129,25 @@ def drawSprites(width, height, player, buffer):
         spriteBottom = max(-spriteHeight/2 + height/2 + vertScaleScreen, 0)
         spriteTop = min(spriteHeight/2 + height/2 + vertScaleScreen, height)
 
-        drawSprite(sprite.texID, width, spriteCameraY, spriteLeft, spriteRight, spriteBottom, spriteTop, buffer)
+        drawSprite(spriteImg, spriteWidth, spriteHeight, spriteCameraY, spriteLeft, spriteRight, spriteBottom, spriteTop, buffer)
 
 # draw individual sprite
-def drawSprite(spriteID, width, depth, left, right, bottom, top, buffer):
+def drawSprite(img, width, height, depth, left, right, bottom, top, buffer):
     spriteBatch = graphics.Batch()
-    lineList = []
-    img = settings.spriteFiles[spriteID]
+    scale = img.height/height
+    stripeStartIndex = 0
+    stripeList = []
     # loop through x values
-    for x in range(int(left), int(right)+1, resolution):
+    for x in range(int(left), int(right), resolution):
         # if in front of camera, draw line
         if (0 < depth <= buffer[x]):
-            vertLine = shapes.Line(x, bottom, x, top, width=resolution, color=(0,255,0,255), batch=spriteBatch)
-            lineList.append(vertLine)
+            imgStripeWidth = max(int(scale * resolution), 1)
+            imgStripeStart = min(imgStripeWidth * stripeStartIndex, img.width)
+            if imgStripeStart+imgStripeWidth > img.width: imgStripeWidth = 0
+            stripeImg = img.get_region(imgStripeStart, 0, imgStripeWidth, img.height)
+            stripeSprite = sprite.Sprite(stripeImg, x, bottom, batch=spriteBatch)
+            print(imgStripeWidth)
+            stripeSprite.scale = (top-bottom)/img.height
+            stripeList.append(stripeSprite)
+        stripeStartIndex += 1
     spriteBatch.draw()

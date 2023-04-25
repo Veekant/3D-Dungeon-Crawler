@@ -15,11 +15,10 @@ import time
 
 class sprite:
 
-    def __init__(self, x, y, hScale, wScale, vScale, textureID):
+    def __init__(self, x, y, scale, vScale, textureID):
         self.x = x
         self.y = y
-        self.heightScale = hScale
-        self.widthScale = wScale
+        self.scale = scale
         self.vertScale = vScale
         self.texID = textureID
         settings.spriteList.append(self)
@@ -43,8 +42,8 @@ class sprite:
 
 class enemy(sprite):
 
-    def __init__(self, x, y, hScale, wScale, vScale, textureID):
-        super().__init__(x, y, hScale, wScale, vScale, textureID)
+    def __init__(self, x, y, scale, vScale, textureID):
+        super().__init__(x, y, scale, vScale, textureID)
         self.attackTimer = time.time()
         self.health = settings.enemyHealth
         settings.enemyList.append(self)

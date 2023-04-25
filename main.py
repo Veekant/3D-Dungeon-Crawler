@@ -21,13 +21,13 @@ def onAppStart():
     settings.width, settings.height = game_window.get_size()
     game_window.set_exclusive_mouse(True)
 
-    settings.map = load.loadMap("map2")
+    settings.map = load.loadMap("map1")
     settings.texFiles = load.loadTextures()
     settings.spriteFiles = load.loadSprites()
     settings.player = player.player(1.5, 1.5, math.pi)
     settings.minimap = hud.minimap(settings.width-200, 0, 200, 200)
     settings.statusBars = hud.statusBars(0, 0, 300, 200, 75, 12)
-    testEnemy = gameSprite.enemy(3.5, 4.5, 3, 3, 400, 5)
+    testEnemy = gameSprite.enemy(3.5, 4.5, 2.5, 400, 5)
 
 @game_window.event
 def on_draw():
