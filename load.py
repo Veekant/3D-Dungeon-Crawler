@@ -30,3 +30,6 @@ def loadMap(mapID):
         colList = [flipMap[row][col] for row in range(rows)]
         map.append(colList)
     return map
+
+def loadTexture(textureID):
+    pass
