@@ -40,8 +40,8 @@ def render():
         rayDirX = player.dirX + adjX * player.planeX
         rayDirY = player.dirY + adjX * player.planeY
         # cast ray and draw line
-        dist, side = rayCast(player.x, player.y, rayDirX, rayDirY, map, zBuffer)
-        line = drawVertLine(mainBatch, x, dist, side, height)
+        dist, side, wallVal, wallX = rayCast(player.x, player.y, rayDirX, rayDirY, map, zBuffer)
+        line = drawVertLine(mainBatch, x, height, dist, side, wallVal, wallX, rayDirX, rayDirY)
         lineList.append(line)
     mainBatch.draw()
     
@@ -80,7 +80,10 @@ def rayCast(posX, posY, dirX, dirY, map, buffer):
     dist = (totalDistX - deltaDistX) if side == 0 else (totalDistY - deltaDistY)
     # add dist to buffer
     buffer.extend([dist] * resolution)
-    return dist, side
+    if side == 0: wallX = (posY + dist * dirY) % 1
+    else: wallX = (posX + dist * dirX) % 1
+    
+    return dist, side, map[mapX][mapY], wallX
 
 # helper function that returns sign
 def sign(num):
@@ -88,17 +91,27 @@ def sign(num):
     else: return 1
 
 # draw vertical line on screen
-def drawVertLine(batch, x, dist, side, height):
+def drawVertLine(batch, x, height, dist, side, wallVal, wallX, rayDirX, rayDirY):
     # calculate line of height
     lineHeight = height/dist if dist != 0 else math.inf
     # find top and bottom of line
-    top = max(-lineHeight/2 + height/2, 0)
-    bottom = min(lineHeight/2 + height/2, height)
+    bottom = max(-lineHeight/2 + height/2, 0)
+    top = min(lineHeight/2 + height/2, height)
     # get color
     color = wallColors[side]
     # draw line
-    vertLine = shapes.Line(x, bottom, x, top, width=resolution, color=color, batch=batch)
-    return vertLine
+    texImg = settings.texFiles[wallVal-1]
+    texX = int(wallX * texImg.width)
+    if(side == 0 and rayDirX > 0): texX = texImg.width - texX - 1
+    if(side == 1 and rayDirY < 0): texX = texImg.width - texX - 1
+
+    scale = (lineHeight) / texImg.height
+    texStart = (bottom + lineHeight/2 - height/2) * (1/scale)
+    lineImg = texImg.get_region(texX, texStart, resolution, texImg.height)
+    lineSprite = sprite.Sprite(lineImg, x, bottom, batch=batch)
+    lineSprite.scale_y = scale
+    # vertLine = shapes.Line(x, bottom, x, top, width=resolution, color=color, batch=batch)
+    return lineSprite
 
 # draws all sprites to the screen
 def drawSprites(width, height, player, buffer):

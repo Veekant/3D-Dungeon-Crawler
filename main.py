@@ -9,8 +9,8 @@ import input
 import math
 import time
 
-image.Texture.default_min_filter = gl.GL_LINEAR
-image.Texture.default_mag_filter = gl.GL_LINEAR
+gl.glEnable(gl.GL_TEXTURE_2D)
+gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
 
 game_window = window.Window(fullscreen=True)
 keys = window.key.KeyStateHandler()
