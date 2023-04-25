@@ -118,12 +118,14 @@ def drawSprites(width, height, player, buffer):
         # scale factor
         vertScaleScreen = -sprite.vertScale / spriteCameraY
 
+        spriteImg = settings.spriteFiles[sprite.texID]
+
         # calculate width and height of sprite
         spriteWidth = abs(width / spriteCameraY) / sprite.widthScale
         spriteLeft = max(-spriteWidth/2 + spriteScreenX, 0)
         spriteRight = min(spriteWidth/2 + spriteScreenX, width)
 
-        spriteHeight = abs(height / spriteCameraY) / sprite.heightScale
+        spriteHeight = spriteWidth * (spriteImg.height/spriteImg.width)
         spriteBottom = max(-spriteHeight/2 + height/2 + vertScaleScreen, 0)
         spriteTop = min(spriteHeight/2 + height/2 + vertScaleScreen, height)
 
@@ -133,6 +135,7 @@ def drawSprites(width, height, player, buffer):
 def drawSprite(spriteID, width, depth, left, right, bottom, top, buffer):
     spriteBatch = graphics.Batch()
     lineList = []
+    img = settings.spriteFiles[spriteID]
     # loop through x values
     for x in range(int(left), int(right)+1, resolution):
         # if in front of camera, draw line

@@ -11,11 +11,15 @@ width = None
 height = None
 fps = 60
 
-# game information
+# object information
 player = None
 map = None
 minimap = None
 statusBars = None
+texFiles = []
+spriteFiles = []
+
+# game information
 gameOver = False
 
 # player information

@@ -3,11 +3,14 @@ import settings
 import load
 import player
 import hud
-import sprite
+import gameSprite
 import renderGame
 import input
 import math
 import time
+
+image.Texture.default_min_filter = gl.GL_LINEAR
+image.Texture.default_mag_filter = gl.GL_LINEAR
 
 game_window = window.Window(fullscreen=True)
 keys = window.key.KeyStateHandler()
@@ -19,10 +22,12 @@ def onAppStart():
     game_window.set_exclusive_mouse(True)
 
     settings.map = load.loadMap("map2")
+    settings.texFiles = load.loadTextures()
+    settings.spriteFiles = load.loadSprites()
     settings.player = player.player(1.5, 1.5, math.pi)
     settings.minimap = hud.minimap(settings.width-200, 0, 200, 200)
     settings.statusBars = hud.statusBars(0, 0, 300, 200, 75, 12)
-    testEnemy = sprite.enemy(3.5, 4.5, 3, 3, 400, None)
+    testEnemy = gameSprite.enemy(3.5, 4.5, 3, 3, 400, 5)
 
 @game_window.event
 def on_draw():
