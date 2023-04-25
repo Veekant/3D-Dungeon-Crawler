@@ -36,7 +36,7 @@ def loadMap(mapID):
 def loadTextures():
     texLoader = resource.Loader(['textures'])
     texFileNames = ['bookshelf', 'gray_bricks', 'planks', 'stone_floor',
-                    'stone_tile', 'stone', 'wall_bricks']
+                    'stone_tile', 'stone', 'wall_bricks', 'sandstone']
     texList = []
     for fileName in texFileNames:
         tex = texLoader.texture(fileName + '.png')

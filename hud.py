@@ -87,7 +87,7 @@ class minimap:
         tileList = []
         for col in range(self.cols):
             for row in range(self.rows):
-                color = blue if map[col][row] == 1 else white
+                color = blue if map[col][row] > 0 else white
                 tile = self.drawTile(batch, col, row, color)
                 tileList.append(tile)
         return border, tileList

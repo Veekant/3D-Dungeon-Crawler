@@ -26,10 +26,15 @@ floorColor = (186, 140, 99, 255)
 def render():
     width, height = settings.width, settings.height
     player, map = settings.player, settings.map
+
     mainBatch = graphics.Batch()
+    bg = graphics.Group(order=0)
+    walls = graphics.Group(order=1)
+    sprites = graphics.Group(order=2)
+
     # draw floor and ceiling
-    floor = shapes.Rectangle(0, 0, width, height//2, color=floorColor, batch=mainBatch)
-    ceiling = shapes.Rectangle(0, height//2, width, height//2, color=ceilingColor, batch=mainBatch)
+    floor = shapes.Rectangle(0, 0, width, height//2, color=floorColor, batch=mainBatch, group=bg)
+    ceiling = shapes.Rectangle(0, height//2, width, height//2, color=ceilingColor, batch=mainBatch, group=bg)
     zBuffer = []
     lineList = []
     # loop through pixel x-values on screen
@@ -41,7 +46,7 @@ def render():
         rayDirY = player.dirY + adjX * player.planeY
         # cast ray and draw line
         dist, side, wallVal, wallX = rayCast(player.x, player.y, rayDirX, rayDirY, map, zBuffer)
-        line = drawVertLine(mainBatch, x, height, dist, side, wallVal, wallX, rayDirX, rayDirY)
+        line = drawVertLine(mainBatch, walls, x, height, dist, side, wallVal, wallX, rayDirX, rayDirY)
         lineList.append(line)
     mainBatch.draw()
     
@@ -91,25 +96,24 @@ def sign(num):
     else: return 1
 
 # draw vertical line on screen
-def drawVertLine(batch, x, height, dist, side, wallVal, wallX, rayDirX, rayDirY):
+def drawVertLine(batch, group, x, height, dist, side, wallVal, wallX, rayDirX, rayDirY):
     # calculate line of height
     lineHeight = height/dist if dist != 0 else math.inf
     # find top and bottom of line
     bottom = max(-lineHeight/2 + height/2, 0)
     top = min(lineHeight/2 + height/2, height)
-    # get color
-    color = wallColors[side]
     # draw line
     texImg = settings.texFiles[wallVal-1]
     texX = int(wallX * texImg.width)
     if(side == 0 and rayDirX > 0): texX = texImg.width - texX - 1
     if(side == 1 and rayDirY < 0): texX = texImg.width - texX - 1
 
-    scale = (lineHeight) / texImg.height
+    scale = lineHeight / texImg.height
+    lineImgWidth = max(int(resolution/scale), 2)
     texStart = (bottom + lineHeight/2 - height/2) * (1/scale)
-    lineImg = texImg.get_region(texX, texStart, resolution, texImg.height)
-    lineSprite = sprite.Sprite(lineImg, x, bottom, batch=batch)
-    lineSprite.scale_y = scale
+    lineImg = texImg.get_region(texX, texStart, lineImgWidth, texImg.height)
+    lineSprite = sprite.Sprite(lineImg, x, bottom, batch=batch, group=group)
+    lineSprite.scale = scale
     # vertLine = shapes.Line(x, bottom, x, top, width=resolution, color=color, batch=batch)
     return lineSprite
 
