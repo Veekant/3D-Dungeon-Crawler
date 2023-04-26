@@ -52,3 +52,13 @@ def loadSprites():
         spriteFile = spriteLoader.image(fileName + '.png')
         spriteList.append(spriteFile)
     return spriteList
+
+def loadSFX():
+    sfxLoader = resource.Loader(['sfx'])
+    sfxFileNames = []
+    sfxList = []
+    for fileName in sfxFileNames:
+        fullFileName = fileName + '.mp3'
+        sfxFile = sfxLoader.media(fullFileName, streaming=False)
+        sfxList.append(sfxFile)
+    return sfxList

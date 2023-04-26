@@ -82,7 +82,7 @@ class player:
         if self.health <= 0: settings.gameOver = True
 
         # calculate knockback from attack
-        enemyDistVec = (enemy.x-self.x, enemy.y-self.y)
+        enemyDistVec = (self.x-enemy.x, self.y-enemy.y)
         normDistVec = utilities.normalizeVector(enemyDistVec)
         knockbackVec = utilities.vecMultiply(settings.knockback, normDistVec)
         gameplay.moveAxis(self, knockbackVec[0], knockbackVec[1])

@@ -94,7 +94,7 @@ class enemy(sprite):
         if self.health <= 0: self.die()
 
         # calculate knockback
-        enemyDistVec = (player.x-self.x, player.y-self.y)
+        enemyDistVec = (self.x-player.x, self.y-player.y)
         normDistVec = utilities.normalizeVector(enemyDistVec)
         knockbackVec = utilities.vecMultiply(settings.enemyKnockback, normDistVec)
         gameplay.moveAxis(self, knockbackVec[0], knockbackVec[1])
