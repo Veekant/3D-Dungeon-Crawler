@@ -26,6 +26,7 @@ def onSwitch():
     reset()
 
 def update(dt):
+    # cool animation
     global labelWidth
     if labelWidth < settings.width:
         labelWidth = min(labelWidth+250*dt, settings.width)

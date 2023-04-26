@@ -14,6 +14,7 @@ blue = (0, 0, 255, 255)
 yellow = (255, 255, 0)
 white = (255, 255, 255, 255)
 
+# basic button class
 class button:
 
     def __init__(self, centerX, centerY, width, height, text, textSize, colors, func):
@@ -47,7 +48,6 @@ class button:
         self.hover = True
         self.press = False
     
-
     def unHovered(self):
         self.hover = False
         self.press = False

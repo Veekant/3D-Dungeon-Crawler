@@ -107,6 +107,7 @@ def drawVertLine(batch, group, x, height, dist, side, wallVal, wallX, rayDirX, r
     if(side == 0 and rayDirX > 0): texX = texImg.width - texX - 1
     if(side == 1 and rayDirY < 0): texX = texImg.width - texX - 1
 
+    # get image slice, scale, and draw
     scale = lineHeight / texImg.height
     minWidth = 1 if dist <= 4 else 2
     lineImgWidth = max(resolution/scale, minWidth)
@@ -159,6 +160,7 @@ def drawSprite(img, depth, left, right, bottom, top, width, center, buffer):
     for x in range(int(left), int(right), resolution):
         # if in front of camera, draw line
         if (0 < depth <= buffer[x]):
+            # get image slice, scale, and draw
             texX = (x + width/2 - center) * (img.width/width)
             imgStripeWidth = max(int(scale * resolution), 1)
             stripeImg = img.get_region(texX, 0, imgStripeWidth, img.height)

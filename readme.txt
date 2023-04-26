@@ -1,9 +1,9 @@
 3D Dungeon Crawler by Vishant Raajkumar
 
 3D Dungeon Crawler is a short 3D Dungeon Crawler set in a small dungeon.
-There will be a small world to explore and simple combat and enemies.
+There is a small world to explore and simple combat and enemies to fight.
 
-Video Link: https://youtu.be/EizwTMiTjvo (Temp Link)
+Video Link: https://youtu.be/VALYtCrqVHI
 GitHub Page: https://github.com/Veekant/112-RPG (Will make public later)
 
 To play, run main.py. Images are used but no setup should be required.

@@ -62,6 +62,7 @@ def onKeyHold(keys, dt):
     elif keys[window.key.D]: dir[0] = -1
 
     if dir != [0, 0]:
+        # get dir vector and scale for velocity
         normDir = utilities.normalizeVector(dir)
         dr = settings.speed * dt
         dir = utilities.vecMultiply(dr, normDir)
@@ -133,7 +134,9 @@ def moveAxis(entity, dx, dy):
 def collisionValid(entity):
     map = settings.map
     player = settings.player
+    # check map tile
     if map[int(entity.x)][int(entity.y)] > 0: return False
+    # check each sprite and player
     for sprite in settings.spriteList:
         distToSprite = utilities.distance(player.x, player.y, sprite.x, sprite.y)
         if distToSprite < settings.maxSpriteDist: return False

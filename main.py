@@ -1,18 +1,12 @@
 from pyglet import *
 import settings
 import load
-import player
-import hud
-import gameSprite
-import renderGame
 import gameplay
 import main_menu
 import aboutPage
 import pause
 import death
 import win
-import math
-import time
 import traceback
 
 image.Texture.default_min_filter = gl.GL_LINEAR

@@ -154,6 +154,7 @@ class statusBars:
         return barList
 
 def drawSword(batch, attacking):
+    # draw cool sword thing
     swordImg = settings.spriteFiles[7]
     swordImg.anchor_x, swordImg.anchor_y = swordImg.width//2, 0
     if attacking:
