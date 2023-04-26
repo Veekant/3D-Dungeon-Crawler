@@ -6,7 +6,6 @@ texture rendering (TP3)
 floor/ceiling rendering (TP3)
 
 '''
-from cmu_graphics import *
 from pyglet import *
 import settings
 import utilities
@@ -109,10 +108,11 @@ def drawVertLine(batch, group, x, height, dist, side, wallVal, wallX, rayDirX, r
     if(side == 1 and rayDirY < 0): texX = texImg.width - texX - 1
 
     scale = lineHeight / texImg.height
-    lineImgWidth = max(int(resolution/scale), 2)
+    minWidth = 1 if dist <= 4 else 2
+    lineImgWidth = max(resolution/scale, minWidth)
     texStart = (bottom + lineHeight/2 - height/2) * (1/scale)
     lineImg = texImg.get_region(texX, texStart, lineImgWidth, texImg.height)
-    lineSprite = sprite.Sprite(lineImg, x, bottom, batch=batch, group=group)
+    lineSprite = sprite.Sprite(lineImg, x, bottom, subpixel=True, batch=batch, group=group)
     lineSprite.scale = scale
     # vertLine = shapes.Line(x, bottom, x, top, width=resolution, color=color, batch=batch)
     return lineSprite
