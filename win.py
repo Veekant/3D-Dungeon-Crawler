@@ -1,5 +1,5 @@
 '''
-menu when player dies
+menu when player wins
 '''
 
 from pyglet import *
@@ -9,10 +9,10 @@ import main_menu
 import ui
 
 buttonList = []
-labelWidth = 10
 blurColor = (0, 0, 0, 64)
 blueColor2 = (0, 0, 0, 128)
 gray = (128, 128, 128, 255)
+green = (0, 0, 255, 255)
 red = (255, 0, 0, 255)
 startColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
 
@@ -22,25 +22,16 @@ def reset():
 
 def onSwitch():
     settings.window.set_exclusive_mouse(False)
-    settings.musicFiles[0].play()
+    settings.musicFiles[1].play()
     reset()
 
-def update(dt):
-    global labelWidth
-    if labelWidth < settings.width:
-        labelWidth = min(labelWidth+250*dt, settings.width)
+def update(dt, keys):
+    pass
 
 def onDraw():
-    gameplay.onDraw()
     batch = graphics.Batch()
-    blurScreen = shapes.Rectangle(0, 0, settings.width, settings.height,
-                                  color=blurColor, batch=batch)
-    blurLabel = shapes.Rectangle(settings.width//2, settings.height-400,
-                                 labelWidth, 150,
-                                 color=blurColor, batch=batch)
-    blurLabel.anchor_position = labelWidth//2, 75
-    deathLabel = text.Label("YOU DIED", font_name='Century Gothic',
-                          font_size=72, bold=True, color=red,
+    winLabel = text.Label("YOU WIN", font_name='Century Gothic',
+                          font_size=72, bold=True, color=green,
                           x=settings.width//2, y=settings.height-400,
                           anchor_x='center', anchor_y='center',
                           batch=batch)

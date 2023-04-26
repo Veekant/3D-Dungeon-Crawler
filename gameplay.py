@@ -6,12 +6,16 @@ from pyglet import *
 import settings
 import pause
 import death
+import win
 import player
 import hud
 import gameSprite
 import renderGame
 import utilities
 import math
+import time
+
+footstepSoundTimer = 0
 
 def onSwitch(resetGame):
     settings.window.set_exclusive_mouse(True)
@@ -51,10 +55,12 @@ def onMouseMove(mouseX, mouseY, dx, dy):
 def onMousePress(mouseX, mouseY, button, modifiers):
     if button == window.mouse.LEFT:
         settings.player.attacking = True
+        swordSound = settings.sfxFiles[7].play()
+        swordSound.volume = 0.5
         attack()
 
 def onMouseRelease(mouseX, mouseY, button):
-    if button == window.mouse.LEFT:
+    if button == window.mouse.LEFT and settings.player.attacking:
         settings.player.attacking = False
 
 def onDraw():
@@ -65,8 +71,10 @@ def update(dt, keys):
     onKeyHold(keys, dt)
     for enemy in settings.enemyList:
         enemy.update(dt)
-    if settings.player.health <= 0:
+    if settings.gameOver:
         die()
+    if len(settings.enemyList) == 0:
+        winGame()
 
 # call player rotate method
 def rotate(direction):
@@ -81,7 +89,9 @@ def move(hor, vert):
     if hor == 0 and vert == 0: return
     # move player and check if position is legal
     player.move(hor, vert)
-    if collisionValid(player): return
+    if collisionValid(player):
+        playFootstepSound()
+        return
     # if illegal, return to original position
     player.move(-hor, -vert)
 
@@ -110,6 +120,13 @@ def collisionValid(entity):
         if distToSprite < settings.maxSpriteDist: return False
     return True
 
+def playFootstepSound():
+    global footstepSoundTimer
+    currentTime = time.time()
+    if currentTime-footstepSoundTimer > settings.footstepInterval:
+        settings.sfxFiles[0].play()
+        footstepSoundTimer = currentTime
+    
 def attack():
     player = settings.player
     # loop through all enemies
@@ -134,3 +151,7 @@ def pauseGame():
 def die():
     switchTo('death')
     death.onSwitch()
+
+def winGame():
+    switchTo('win')
+    win.onSwitch()

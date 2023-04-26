@@ -34,6 +34,7 @@ class button:
     def pressed(self):
         self.hover = False
         self.press = True
+        pressPlayer = settings.sfxFiles[4].play()
 
     def released(self):
         self.hover = True
@@ -41,8 +42,11 @@ class button:
         self.func()
 
     def hovered(self):
+        if self.hover == False:
+            settings.sfxFiles[3].play()
         self.hover = True
         self.press = False
+    
 
     def unHovered(self):
         self.hover = False

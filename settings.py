@@ -19,6 +19,8 @@ minimap = None
 statusBars = None
 texFiles = []
 spriteFiles = []
+sfxFiles = []
+musicFiles = []
 
 # game information
 state = None
@@ -51,3 +53,7 @@ enemyDamage = 10
 enemyStaminaCost = 6
 enemyAttackCooldown = 3
 enemyKnockback = 0.65
+
+# sound information
+footstepInterval = 0.4
+enemySnarlFrequency = 5.5

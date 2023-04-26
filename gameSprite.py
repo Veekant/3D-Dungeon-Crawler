@@ -45,6 +45,8 @@ class enemy(sprite):
     def __init__(self, x, y, scale, vScale, textureID):
         super().__init__(x, y, scale, vScale, textureID)
         self.attackTimer = time.time()
+        self.pathfinding = False
+        self.snarlTimer = time.time()
         self.health = settings.enemyHealth
         settings.enemyList.append(self)
 
@@ -52,6 +54,7 @@ class enemy(sprite):
         player = settings.player
         self.moveToPlayer(player, dt)
         self.attack(player, dt)
+        self.playSnarl()
 
     def moveToPlayer(self, player, dt):
         # finds path to player
@@ -60,10 +63,13 @@ class enemy(sprite):
         path = pathfinding.findPath(pos, cameraPos)
         # if path exists and player is close enough:
         if path != None and len(path)-1 <= settings.aggroDistance:
+            self.pathfinding = True
             # move towards target
             target = (path[1][0] + 0.5, path[1][1] + 0.5) if len(path)>1 else cameraPos
             if self.distToPlayer() > settings.enemyAttackRange:
                 self.moveToPoint(target, dt)
+        else:
+            self.pathfinding = False
 
     # moves in direction of point
     def moveToPoint(self, point, dt):
@@ -86,8 +92,15 @@ class enemy(sprite):
                 player.attacked(self)
                 self.attackTimer = time.time()
 
+    def playSnarl(self):
+        currentTime = time.time()
+        if self.pathfinding and currentTime-self.snarlTimer > settings.enemySnarlFrequency:
+            settings.sfxFiles[1].play()
+            self.snarlTimer = currentTime
+
     # handles being attacked
     def attacked(self, player):
+        settings.sfxFiles[8].play()
         # takes damage
         self.health -= settings.damage
         # kill enemy if health at 0
@@ -101,5 +114,6 @@ class enemy(sprite):
     
     # kills enemy by removing from lists
     def die(self):
+        settings.sfxFiles[2].play()
         settings.spriteList.remove(self)
         settings.enemyList.remove(self)

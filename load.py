@@ -55,10 +55,22 @@ def loadSprites():
 
 def loadSFX():
     sfxLoader = resource.Loader(['sfx'])
-    sfxFileNames = []
+    sfxFileNames = ['footstep', 'enemy_snarl', 'enemy_death', 'button_hover',
+                    'button_press', 'pause', 'unpause', 'sword_attack', 'enemy_hit',
+                    'player_death', 'player_damage'] 
     sfxList = []
     for fileName in sfxFileNames:
         fullFileName = fileName + '.mp3'
         sfxFile = sfxLoader.media(fullFileName, streaming=False)
         sfxList.append(sfxFile)
     return sfxList
+
+def loadMusic():
+    musicLoader = resource.Loader(['music'])
+    musicFileNames = ['death_music', 'win_music'] 
+    trackList = []
+    for fileName in musicFileNames:
+        fullFileName = fileName + '.mp3'
+        musicFile = musicLoader.media(fullFileName)
+        trackList.append(musicFile)
+    return trackList

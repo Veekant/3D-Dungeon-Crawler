@@ -79,7 +79,11 @@ class player:
         self.health -= settings.enemyDamage
 
         # if health below zero, game over
-        if self.health <= 0: settings.gameOver = True
+        if self.health <= 0:
+            settings.sfxFiles[9].play()
+            settings.gameOver = True
+        else:
+            settings.sfxFiles[10].play()
 
         # calculate knockback from attack
         enemyDistVec = (self.x-enemy.x, self.y-enemy.y)

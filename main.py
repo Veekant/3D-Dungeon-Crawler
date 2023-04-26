@@ -9,6 +9,7 @@ import gameplay
 import main_menu
 import pause
 import death
+import win
 import math
 import time
 import traceback
@@ -29,6 +30,8 @@ def onAppStart():
     settings.map = load.loadMap("map1")
     settings.texFiles = load.loadTextures()
     settings.spriteFiles = load.loadSprites()
+    settings.sfxFiles = load.loadSFX()
+    settings.musicFiles = load.loadMusic()
     settings.state = 'main_menu'
     main_menu.onSwitch()
 
@@ -43,6 +46,8 @@ def on_draw():
         pause.onDraw()
     elif settings.state == 'death':
         death.onDraw()
+    elif settings.state == 'win':
+        win.onDraw()
     fps_display.draw()
 
 @game_window.event          
@@ -63,6 +68,8 @@ def on_mouse_motion(x, y, dx, dy):
         pause.onMouseMove(x, y)
     elif settings.state == 'death':
         death.onMouseMove(x, y)
+    elif settings.state == 'win':
+        win.onMouseMove(x, y)
 
 @game_window.event
 def on_mouse_press(x, y, button, modifiers):
@@ -74,6 +81,8 @@ def on_mouse_press(x, y, button, modifiers):
         pause.onMousePress(x, y, button)
     elif settings.state == 'death':
         death.onMousePress(x, y, button)
+    elif settings.state == 'win':
+        win.onMousePress(x, y, button)
 
 @game_window.event
 def on_mouse_release(x, y, button, modifiers):
@@ -85,13 +94,15 @@ def on_mouse_release(x, y, button, modifiers):
         pause.onMouseRelease(x, y, button)
     elif settings.state == 'death':
         death.onMouseRelease(x, y, button)
+    elif settings.state == 'win':
+        win.onMouseRelease(x, y, button)
 
 def update(dt):
     game_window.push_handlers(keys)
     if settings.state == 'gameplay':
         gameplay.update(dt, keys)
     elif settings.state == 'death':
-        death.update(dt, keys)
+        death.update(dt)
 clock.schedule_interval(update, 1/settings.fps)
 
 def main():

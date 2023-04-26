@@ -20,6 +20,7 @@ def reset():
 
 def onSwitch():
     settings.window.set_exclusive_mouse(False)
+    settings.sfxFiles[5].play()
     reset()
 
 def update(dt):
@@ -63,6 +64,7 @@ def onMouseRelease(mouseX, mouseY, button):
 
 def unpauseGame():
     switchTo('gameplay')
+    settings.sfxFiles[6].play()
     gameplay.onSwitch(False)
 
 def returnToMainMenu():
