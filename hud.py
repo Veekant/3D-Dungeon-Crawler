@@ -92,12 +92,11 @@ class minimap:
                 tileList.append(tile)
         return border, tileList
 
-    def draw(self):
-        mapBatch = graphics.Batch()
-        border, tileList = self.drawMap(mapBatch)
-        playerIndicator = self.drawPlayer(mapBatch)
-        enemyDotList = self.drawEnemies(mapBatch)
-        mapBatch.draw()
+    def draw(self, batch):
+        border, tileList = self.drawMap(batch)
+        playerIndicator = self.drawPlayer(batch)
+        enemyDotList = self.drawEnemies(batch)
+        return (border, tileList, playerIndicator, enemyDotList)
 
 class statusBars:
 
@@ -138,20 +137,44 @@ class statusBars:
         return (label, barOutline, bar)
 
     # draw all three bars
-    def drawBars(self):
-        barsBatch = graphics.Batch()
+    def drawBars(self, batch):
         barList = []
         # draw background
         background = shapes.BorderedRectangle(self.left, self.bottom, self.width, self.height,
                                               border=2, color=white, border_color=black,
-                                              batch=barsBatch)
+                                              batch=batch)
         # get bar values
         player = settings.player
         barVals = [player.health, player.stamina, player.special]
         maxBarVals = [settings.maxHealth, settings.maxStamina, settings.maxSpecial]
         # draw each bar
         for i in range(3):
-            bar = self.drawBar(barsBatch, i, barVals[i], maxBarVals[i])
+            bar = self.drawBar(batch, i, barVals[i], maxBarVals[i])
             barList.append(bar)
-        barsBatch.draw()
+        return barList
+
+def drawSword(batch, attacking):
+    swordImg = settings.spriteFiles[7]
+    swordImg.anchor_x, swordImg.anchor_y = swordImg.width//2, 0
+    if attacking:
+        posX = settings.width // 3
+        posY = -90
+        rotation = -50
+        scale = 0.9
+    else:
+        posX = 3 * settings.width // 4
+        posY = -100
+        rotation = 10
+        scale = 1.2
+    swordSprite = sprite.Sprite(swordImg, posX, posY, batch=batch)
+    swordSprite.scale = scale
+    swordSprite.rotation = rotation
+    return swordSprite
+
+def draw():
+    hudBatch = graphics.Batch()
+    sword = drawSword(hudBatch, settings.player.attacking)
+    (border, tileList, playerIndicator, enemyDotList) = settings.minimap.draw(hudBatch)
+    bars = settings.statusBars.drawBars(hudBatch)
+    hudBatch.draw()
 

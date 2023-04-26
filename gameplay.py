@@ -18,6 +18,8 @@ def onSwitch(resetGame):
     if resetGame: reset()
 
 def reset():
+    settings.enemyList = []
+    settings.spriteList = []
     settings.player = player.player(1.5, 1.5, math.pi)
     settings.minimap = hud.minimap(settings.width-200, 0, 200, 200)
     settings.statusBars = hud.statusBars(0, 0, 300, 200, 75, 12)
@@ -48,12 +50,16 @@ def onMouseMove(mouseX, mouseY, dx, dy):
 
 def onMousePress(mouseX, mouseY, button, modifiers):
     if button == window.mouse.LEFT:
+        settings.player.attacking = True
         attack()
+
+def onMouseRelease(mouseX, mouseY, button):
+    if button == window.mouse.LEFT:
+        settings.player.attacking = False
 
 def onDraw():
     renderGame.render()
-    settings.minimap.draw()
-    settings.statusBars.drawBars()
+    hud.draw()
 
 def update(dt, keys):
     onKeyHold(keys, dt)
@@ -75,7 +81,7 @@ def move(hor, vert):
     if hor == 0 and vert == 0: return
     # move player and check if position is legal
     player.move(hor, vert)
-    if map[int(player.x)][int(player.y)] == 0: return
+    if collisionValid(player): return
     # if illegal, return to original position
     player.move(-hor, -vert)
 
@@ -88,12 +94,21 @@ def moveAxis(entity, dx, dy):
     map = settings.map
     # check first axis
     entity.moveAxis(dx, 0)
-    if map[int(entity.x)][int(entity.y)] == 0: return
+    if collisionValid(entity): return
     # if failed, undo and try second axis
     entity.moveAxis(-dx, dy)
-    if map[int(entity.x)][int(entity.y)] == 0: return
+    if collisionValid(entity): return
     # if failed again, give up and cry probably
     entity.moveAxis(0, -dy)
+
+def collisionValid(entity):
+    map = settings.map
+    player = settings.player
+    if map[int(entity.x)][int(entity.y)] > 0: return False
+    for sprite in settings.spriteList:
+        distToSprite = utilities.distance(player.x, player.y, sprite.x, sprite.y)
+        if distToSprite < settings.maxSpriteDist: return False
+    return True
 
 def attack():
     player = settings.player
@@ -101,10 +116,12 @@ def attack():
     for enemy in settings.enemyList:
         # check if close enough
         if utilities.distance(player.x, player.y, enemy.x, enemy.y) < settings.attackRange:
-            distVec = (enemy.x-player.x, enemy.y-player.y)
+            distVec = utilities.normalizeVector((enemy.x-player.x, enemy.y-player.y))
             dirVec = (player.dirX, player.dirY)
             # check if roughly facing the right direction
-            if utilities.dotProduct(distVec, dirVec) > 0:
+            dp = utilities.dotProduct(distVec, dirVec)
+            theta = math.degrees(math.acos(dp))
+            if theta < settings.attackAngularRange:
                 player.attack(enemy)
 
 def switchTo(state):

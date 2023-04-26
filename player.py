@@ -34,7 +34,7 @@ class player:
         self.health = settings.maxHealth
         self.stamina = settings.maxStamina
         self.special = settings.maxSpecial
-        self.blocking = False
+        self.attacking = False
         self.attackTimer = time.time()
 
     def __str__(self):
@@ -76,16 +76,10 @@ class player:
 
     # respond to getting attacked
     def attacked(self, enemy):
-        # if blocking reduce stamina
-        if self.blocking and self.stamina > settings.enemyStaminaCost:
-            self.stamina -= settings.enemyStaminaCost
-        # otherwise take damage
-        else:
-            self.health -= settings.enemyDamage
+        self.health -= settings.enemyDamage
 
         # if health below zero, game over
         if self.health <= 0: settings.gameOver = True
-        if self.stamina <= 0: self.blocking = False
 
         # calculate knockback from attack
         enemyDistVec = (enemy.x-self.x, enemy.y-self.y)

@@ -9,7 +9,6 @@ import main_menu
 import ui
 
 buttonList = []
-global labelWidth
 labelWidth = 10
 blurColor = (0, 0, 0, 64)
 blueColor2 = (0, 0, 0, 128)
@@ -28,7 +27,7 @@ def onSwitch():
 def update(dt, keys):
     global labelWidth
     if labelWidth < settings.width:
-        labelWidth = min(labelWidth+200*dt, settings.width)
+        labelWidth = min(labelWidth+250*dt, settings.width)
 
 def onDraw():
     gameplay.onDraw()

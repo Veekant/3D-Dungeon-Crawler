@@ -46,7 +46,7 @@ def loadTextures():
 def loadSprites():
     spriteLoader = resource.Loader(['sprites'])
     spriteFileNames = ['bone_shield', 'death_speaker', 'druid', 'shadow_soul',
-                       'shadow_tendrils', 'skeleton', 'zombie']
+                       'shadow_tendrils', 'skeleton', 'zombie', 'sword']
     spriteList = []
     for fileName in spriteFileNames:
         spriteFile = spriteLoader.image(fileName + '.png')

@@ -26,7 +26,7 @@ gameOver = False
 
 # player information
 fov = 65
-speed = 1.5
+speed = 1.25
 sensitivity = 0.75
 maxHealth = 100
 maxStamina = 100
@@ -34,7 +34,9 @@ maxSpecial = 100
 damage = 60
 knockback = 0.3
 attackRange = 1.2
+attackAngularRange = 20
 attackCooldown = 2.5
+maxSpriteDist = 1
 
 # map information
 spriteList = []

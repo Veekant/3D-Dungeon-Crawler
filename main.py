@@ -79,6 +79,8 @@ def on_mouse_press(x, y, button, modifiers):
 def on_mouse_release(x, y, button, modifiers):
     if settings.state == 'main_menu':
         main_menu.onMouseRelease(x, y, button)
+    elif settings.state == 'gameplay':
+        gameplay.onMouseRelease(x, y, button)
     elif settings.state == 'paused':
         pause.onMouseRelease(x, y, button)
     elif settings.state == 'death':
