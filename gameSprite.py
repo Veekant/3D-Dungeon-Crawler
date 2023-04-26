@@ -10,7 +10,7 @@ conversations
 import settings
 import pathfinding
 import utilities
-import input
+import gameplay
 import time
 
 class sprite:
@@ -97,7 +97,7 @@ class enemy(sprite):
         enemyDistVec = (player.x-self.x, player.y-self.y)
         normDistVec = utilities.normalizeVector(enemyDistVec)
         knockbackVec = utilities.vecMultiply(settings.enemyKnockback, normDistVec)
-        input.moveAxis(self, knockbackVec[0], knockbackVec[1])
+        gameplay.moveAxis(self, knockbackVec[0], knockbackVec[1])
     
     # kills enemy by removing from lists
     def die(self):

@@ -4,8 +4,18 @@ might handle some input stuff here
 
 from pyglet import *
 import settings
+import player
+import hud
+import gameSprite
+import renderGame
 import utilities
 import math
+
+def reset():
+    settings.player = player.player(1.5, 1.5, math.pi)
+    settings.minimap = hud.minimap(settings.width-200, 0, 200, 200)
+    settings.statusBars = hud.statusBars(0, 0, 300, 200, 75, 12)
+    testEnemy = gameSprite.enemy(3.5, 4.5, 4, 400, 6)
 
 def onKeyPress(window, key):
     if key == 'ESCAPE': window.close()
@@ -30,6 +40,16 @@ def onMouseMove(mouseX, mouseY, dx, dy):
 def onMousePress(mouseX, mouseY, button, modifiers):
     if button == window.mouse.LEFT:
         attack()
+
+def onDraw():
+    renderGame.render()
+    settings.minimap.draw()
+    settings.statusBars.drawBars()
+
+def update(dt, keys):
+    onKeyHold(keys, dt)
+    for enemy in settings.enemyList:
+        enemy.update(dt)
 
 # call player rotate method
 def rotate(direction):

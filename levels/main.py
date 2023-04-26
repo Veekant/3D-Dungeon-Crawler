@@ -5,7 +5,7 @@ import player
 import hud
 import gameSprite
 import renderGame
-import input
+import gameplay
 import math
 import time
 
@@ -40,19 +40,19 @@ def on_draw():
 @game_window.event
 def on_key_press(symbol, modifiers):
     key = window.key.symbol_string(symbol)
-    input.onKeyPress(game_window, key)
+    gameplay.onKeyPress(game_window, key)
 
 @game_window.event
 def on_mouse_motion(x, y, dx, dy):
-    input.onMouseMove(x, y, dx, dy)
+    gameplay.onMouseMove(x, y, dx, dy)
 
 @game_window.event
 def on_mouse_press(x, y, button, modifiers):
-    input.onMousePress(x, y, button, modifiers)
+    gameplay.onMousePress(x, y, button, modifiers)
 
 def update(dt):
     game_window.push_handlers(keys)
-    input.onKeyHold(keys, dt)
+    gameplay.onKeyHold(keys, dt)
     for enemy in settings.enemyList:
         enemy.update(dt)
 clock.schedule_interval(update, 1/settings.fps)

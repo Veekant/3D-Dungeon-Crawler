@@ -20,7 +20,7 @@ texFiles = []
 spriteFiles = []
 
 # game information
-state = 'main_menu'
+state = None
 gameOver = False
 
 # player information

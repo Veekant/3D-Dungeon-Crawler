@@ -9,7 +9,7 @@ from math import *
 from cmu_graphics import *
 import settings
 import utilities
-import input
+import gameplay
 import time
 
 
@@ -91,4 +91,4 @@ class player:
         enemyDistVec = (enemy.x-self.x, enemy.y-self.y)
         normDistVec = utilities.normalizeVector(enemyDistVec)
         knockbackVec = utilities.vecMultiply(settings.knockback, normDistVec)
-        input.moveAxis(self, knockbackVec[0], knockbackVec[1])
+        gameplay.moveAxis(self, knockbackVec[0], knockbackVec[1])

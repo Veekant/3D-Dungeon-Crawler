@@ -5,7 +5,8 @@ import player
 import hud
 import gameSprite
 import renderGame
-import input
+import gameplay
+import main_menu
 import math
 import time
 
@@ -24,37 +25,35 @@ def onAppStart():
     settings.map = load.loadMap("map1")
     settings.texFiles = load.loadTextures()
     settings.spriteFiles = load.loadSprites()
-    settings.player = player.player(1.5, 1.5, math.pi)
-    settings.minimap = hud.minimap(settings.width-200, 0, 200, 200)
-    settings.statusBars = hud.statusBars(0, 0, 300, 200, 75, 12)
-    testEnemy = gameSprite.enemy(3.5, 4.5, 4, 400, 6)
+    settings.state = 'main_menu'
 
 @game_window.event
 def on_draw():
     game_window.clear()
-    renderGame.render()
-    settings.minimap.draw()
-    settings.statusBars.drawBars()
+    if settings.state == 'gameplay': 
+        gameplay.onDraw()
     fps_display.draw()
 
 @game_window.event
 def on_key_press(symbol, modifiers):
     key = window.key.symbol_string(symbol)
-    input.onKeyPress(game_window, key)
+    if settings.state == 'gameplay':
+        gameplay.onKeyPress(game_window, key)
 
 @game_window.event
 def on_mouse_motion(x, y, dx, dy):
-    input.onMouseMove(x, y, dx, dy)
+    if settings.state == 'gameplay':
+        gameplay.onMouseMove(x, y, dx, dy)
 
 @game_window.event
 def on_mouse_press(x, y, button, modifiers):
-    input.onMousePress(x, y, button, modifiers)
+    if settings.state == 'gameplay':
+        gameplay.onMousePress(x, y, button, modifiers)
 
 def update(dt):
     game_window.push_handlers(keys)
-    input.onKeyHold(keys, dt)
-    for enemy in settings.enemyList:
-        enemy.update(dt)
+    if settings.state == 'gameplay':
+        gameplay.update(dt, keys)
 clock.schedule_interval(update, 1/settings.fps)
 
 def main():
