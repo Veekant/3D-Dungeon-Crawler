@@ -7,6 +7,7 @@ Add more settings as stuff is added
 '''
 
 # app information
+window = None
 width = None
 height = None
 fps = 60
@@ -44,7 +45,7 @@ enemyHealth = 65
 enemySpeed = 0.5
 aggroDistance = 5
 enemyAttackRange = 1
-enemyDamage = 3.7
+enemyDamage = 10
 enemyStaminaCost = 6
 enemyAttackCooldown = 3
 enemyKnockback = 0.5

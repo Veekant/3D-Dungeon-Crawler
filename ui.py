@@ -16,12 +16,13 @@ white = (255, 255, 255, 255)
 
 class button:
 
-    def __init__(self, left, bottom, width, height, text, colors, func):
-        self.left = left
-        self.bottom = bottom
+    def __init__(self, centerX, centerY, width, height, text, textSize, colors, func):
+        self.x = centerX
+        self.y = centerY
         self.width = width
         self.height = height
         self.text = text
+        self.textSize = textSize
         self.color = colors[0]
         self.hoverColor = colors[1]
         self.pressColor = colors[2]
@@ -43,21 +44,25 @@ class button:
         self.hover = True
         self.press = False
 
+    def unHovered(self):
+        self.hover = False
+        self.press = False
+
     def checkCursor(self, mouseX, mouseY):
-        return (self.left <= mouseX <= self.left+self.width and
-                self.bottom <= mouseY <= self.bottom+self.height)
+        return (self.x-self.width//2 <= mouseX <= self.x+self.width//2 and
+                self.y-self.height//2 <= mouseY <= self.y+self.height//2)
     
     def draw(self, batch):
         if self.press: color = self.pressColor
         elif self.hover: color = self.hoverColor
         else: color = self.color
-        rect = shapes.BorderedRectangle(self.left, self.bottom, self.width, self.height,
+        rect = shapes.BorderedRectangle(self.x, self.y, self.width, self.height,
                                         border=2, color=color, border_color=black,
                                         batch=batch)
-        centerX, centerY = self.left+self.width//2, self.bottom+self.height//2
-        label = text.Label(self.text, font_name='Times New Roman',
-                          font_size=12, bold=True,
-                          x=centerX, y=centerY,
+        rect.anchor_position = self.width//2, self.height//2
+        label = text.Label(self.text, font_name='Century Gothic',
+                          font_size=self.textSize, bold=True,
+                          x=self.x, y=self.y,
                           anchor_x='center', anchor_y='center',
                           batch=batch)
         return (rect, label)

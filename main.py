@@ -7,13 +7,17 @@ import gameSprite
 import renderGame
 import gameplay
 import main_menu
+import pause
+import death
 import math
 import time
+import traceback
 
 image.Texture.default_min_filter = gl.GL_LINEAR
 image.Texture.default_mag_filter = gl.GL_LINEAR
 
 game_window = window.Window(fullscreen=True)
+settings.window = game_window
 keys = window.key.KeyStateHandler()
 fps_display = window.FPSDisplay(window=game_window)
 batch = graphics.Batch()
@@ -26,38 +30,74 @@ def onAppStart():
     settings.texFiles = load.loadTextures()
     settings.spriteFiles = load.loadSprites()
     settings.state = 'main_menu'
+    main_menu.onSwitch()
 
 @game_window.event
 def on_draw():
     game_window.clear()
-    if settings.state == 'gameplay': 
+    if settings.state == 'main_menu':
+        main_menu.onDraw()
+    elif settings.state == 'gameplay': 
         gameplay.onDraw()
+    elif settings.state == 'paused':
+        pause.onDraw()
+    elif settings.state == 'death':
+        death.onDraw()
     fps_display.draw()
 
-@game_window.event
+@game_window.event          
 def on_key_press(symbol, modifiers):
     key = window.key.symbol_string(symbol)
     if settings.state == 'gameplay':
-        gameplay.onKeyPress(game_window, key)
+        gameplay.onKeyPress(key)
+    elif settings.state == 'paused':
+        pause.onKeyPress(key)
 
 @game_window.event
 def on_mouse_motion(x, y, dx, dy):
-    if settings.state == 'gameplay':
+    if settings.state == 'main_menu':
+        main_menu.onMouseMove(x, y)
+    elif settings.state == 'gameplay':
         gameplay.onMouseMove(x, y, dx, dy)
+    elif settings.state == 'paused':
+        pause.onMouseMove(x, y)
+    elif settings.state == 'death':
+        death.onMouseMove(x, y)
 
 @game_window.event
 def on_mouse_press(x, y, button, modifiers):
-    if settings.state == 'gameplay':
+    if settings.state == 'main_menu':
+        main_menu.onMousePress(x, y, button)
+    elif settings.state == 'gameplay':
         gameplay.onMousePress(x, y, button, modifiers)
+    elif settings.state == 'paused':
+        pause.onMousePress(x, y, button)
+    elif settings.state == 'death':
+        death.onMousePress(x, y, button)
+
+@game_window.event
+def on_mouse_release(x, y, button, modifiers):
+    if settings.state == 'main_menu':
+        main_menu.onMouseRelease(x, y, button)
+    elif settings.state == 'paused':
+        pause.onMouseRelease(x, y, button)
+    elif settings.state == 'death':
+        death.onMouseRelease(x, y, button)
 
 def update(dt):
     game_window.push_handlers(keys)
     if settings.state == 'gameplay':
         gameplay.update(dt, keys)
+    elif settings.state == 'death':
+        death.update(dt, keys)
 clock.schedule_interval(update, 1/settings.fps)
 
 def main():
-    onAppStart()
-    app.run()
+    try:
+        onAppStart()
+        app.run()
+    except:
+        game_window.close()
+        traceback.print_exc()
 
 main()
