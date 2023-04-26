@@ -36,9 +36,9 @@ maxStamina = 100
 maxSpecial = 100
 damage = 40
 knockback = 0.2
-attackRange = 1.2
+attackRange = 1.5
 attackAngularRange = 20
-attackCooldown = 2.5
+attackCooldown = 1.5
 maxSpriteDist = 1
 
 # map information
@@ -48,9 +48,9 @@ spriteList = []
 enemyList = []
 enemyHealth = 65
 enemySpeed = 0.5
-aggroDistance = 5
+aggroDistance = 4
 enemyAttackRange = 1
-enemyDamage = 10
+enemyDamage = 5
 enemyStaminaCost = 6
 enemyAttackCooldown = 3
 enemyKnockback = 0.65

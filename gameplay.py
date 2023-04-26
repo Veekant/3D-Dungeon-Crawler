@@ -31,10 +31,22 @@ def onSwitch(resetGame):
 def reset():
     settings.enemyList = []
     settings.spriteList = []
-    settings.player = player.player(1.5, 1.5, math.pi)
+    settings.player = player.player(4, 22, -math.pi/2)
     settings.minimap = hud.minimap(settings.width-200, 0, 200, 200)
     settings.statusBars = hud.statusBars(0, 0, 300, 200, 75, 12)
-    testEnemy = gameSprite.enemy(3.5, 4.5, 4, 400, 6)
+    spawnEnemies()
+
+def spawnEnemies():
+    zombie1 = gameSprite.enemy(4, 16, 4, 400, 6)
+    zombie2 = gameSprite.enemy(6, 3, 4, 400, 6)
+    zombie3 = gameSprite.enemy(11, 20, 4, 400, 6)
+    zombie4 = gameSprite.enemy(15, 20, 4, 400, 6)
+
+    skeleton1 = gameSprite.enemy(9, 12, 2, 400, 5)
+    skeleton2 = gameSprite.enemy(8, 20, 2, 400, 5)
+    skeleton3 = gameSprite.enemy(3, 14, 2, 400, 5)
+
+    druid1 = gameSprite.enemy(11, 14, 2, 400, 2)
 
 def onKeyPress(key):
     if key == 'P':

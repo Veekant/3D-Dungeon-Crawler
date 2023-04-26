@@ -28,7 +28,7 @@ def onAppStart():
     settings.width, settings.height = game_window.get_size()
     game_window.set_exclusive_mouse(True)
 
-    settings.map = load.loadMap("map1")
+    settings.map = load.loadMap("map2")
     settings.texFiles = load.loadTextures()
     settings.spriteFiles = load.loadSprites()
     settings.sfxFiles = load.loadSFX()

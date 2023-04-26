@@ -15,11 +15,11 @@ import math
 # sprite raycasting algorithm from https://lodev.org/cgtutor/raycasting3.html
 
 # initialize basic rendering vars (will move into settings later)
-resolution = 4
+resolution = 6
 maxViewDistance = 150
 wallColors = [(112, 128, 144, 255), (119, 136, 153, 255)]
-ceilingColor = (105, 105, 105, 255)
-floorColor = (186, 140, 99, 255)
+ceilingColor = (60, 70, 75, 255)
+floorColor = (133, 94, 66, 255)
 
 # main render function
 def render():
