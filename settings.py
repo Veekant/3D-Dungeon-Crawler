@@ -21,6 +21,7 @@ texFiles = []
 spriteFiles = []
 sfxFiles = []
 musicFiles = []
+musicPlayer = None
 
 # game information
 state = None

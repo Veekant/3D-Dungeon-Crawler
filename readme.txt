@@ -12,3 +12,15 @@ The only external module used is pyglet, which can be installed using pip.
 Credit:
 Art from opengameart.org, Little Martian, and pngwing.com
 Music from Fesilyan Studios and freesound.org
+
+"Cruising for Goblins" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+
+"SCP-x2x (Unseen Presence)" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+
+"Video Dungeon Boss" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/

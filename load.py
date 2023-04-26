@@ -67,7 +67,8 @@ def loadSFX():
 
 def loadMusic():
     musicLoader = resource.Loader(['music'])
-    musicFileNames = ['death_music', 'win_music'] 
+    musicFileNames = ['death_music', 'win_music', 'main_menu_music', 
+                      'background_music'] 
     trackList = []
     for fileName in musicFileNames:
         fullFileName = fileName + '.mp3'

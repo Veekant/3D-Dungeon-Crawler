@@ -19,6 +19,13 @@ footstepSoundTimer = 0
 
 def onSwitch(resetGame):
     settings.window.set_exclusive_mouse(True)
+
+    musicPlayer = settings.musicPlayer
+    musicPlayer.queue(settings.musicFiles[3])
+    musicPlayer.play()
+    musicPlayer.volume = 0.6
+    musicPlayer.loop = True
+
     if resetGame: reset()
 
 def reset():
@@ -143,6 +150,7 @@ def attack():
 
 def switchTo(state):
     settings.state = state
+    settings.musicPlayer.next_source()
 
 def pauseGame():
     switchTo('paused')
