@@ -1,9 +1,5 @@
 '''
-this file will handle loading the map, images, and sounds
-
-TO DO:
-load textures (TP2/3)
-load sounds (TP3)
+functions for loading maps, images, and sounds
 '''
 
 from pyglet import *
@@ -33,6 +29,7 @@ def loadMap(mapID):
         map.append(colList)
     return map
 
+# loads textures used for walls
 def loadTextures():
     texLoader = resource.Loader(['textures'])
     texFileNames = ['bookshelf', 'gray_bricks', 'planks', 'stone_floor',
@@ -43,6 +40,7 @@ def loadTextures():
         texList.append(tex)
     return texList
 
+# loads textures used for sprites
 def loadSprites():
     spriteLoader = resource.Loader(['sprites'])
     spriteFileNames = ['bone_shield', 'death_speaker', 'druid', 'shadow_soul',
@@ -53,6 +51,7 @@ def loadSprites():
         spriteList.append(spriteFile)
     return spriteList
 
+# loads basic sound effects
 def loadSFX():
     sfxLoader = resource.Loader(['sfx'])
     sfxFileNames = ['footstep', 'enemy_snarl', 'enemy_death', 'button_hover',
@@ -65,6 +64,7 @@ def loadSFX():
         sfxList.append(sfxFile)
     return sfxList
 
+# loads longer music tracks
 def loadMusic():
     musicLoader = resource.Loader(['music'])
     musicFileNames = ['death_music', 'win_music', 'main_menu_music', 

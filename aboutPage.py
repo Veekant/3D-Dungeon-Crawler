@@ -4,20 +4,15 @@ quick tutorial menu
 
 from pyglet import *
 import settings
-import gameplay
 import main_menu
 import ui
 
 buttonList = []
-blurColor = (0, 0, 0, 64)
-blueColor2 = (0, 0, 0, 128)
 gray = (128, 128, 128, 255)
-green = (0, 255, 0, 255)
-red = (255, 0, 0, 255)
-startColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
+buttonColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
 
 def reset():
-    mainMenuButton = ui.button(settings.width//2, settings.height//2-400, 600, 100, 'Main Menu', 50, startColors, returnToMainMenu)
+    mainMenuButton = ui.button(settings.width//2, settings.height//2-400, 600, 100, 'Main Menu', 50, buttonColors, returnToMainMenu)
     buttonList.append(mainMenuButton)
 
 def onSwitch():

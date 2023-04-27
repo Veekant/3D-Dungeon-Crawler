@@ -1,32 +1,24 @@
 '''
-menu when player wins
+creates menu when player wins
 '''
 
 from pyglet import *
 import settings
-import gameplay
 import main_menu
 import ui
 
 buttonList = []
-blurColor = (0, 0, 0, 64)
-blueColor2 = (0, 0, 0, 128)
-gray = (128, 128, 128, 255)
 green = (0, 255, 0, 255)
-red = (255, 0, 0, 255)
-startColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
+buttonColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
 
 def reset():
-    mainMenuButton = ui.button(settings.width//2, settings.height//2-100, 600, 100, 'Main Menu', 50, startColors, returnToMainMenu)
+    mainMenuButton = ui.button(settings.width//2, settings.height//2-100, 600, 100, 'Main Menu', 50, buttonColors, returnToMainMenu)
     buttonList.append(mainMenuButton)
 
 def onSwitch():
     settings.window.set_exclusive_mouse(False)
     settings.musicFiles[1].play()
     reset()
-
-def update(dt, keys):
-    pass
 
 def onDraw():
     batch = graphics.Batch()
@@ -54,7 +46,7 @@ def onMousePress(mouseX, mouseY, button):
 
 def onMouseRelease(mouseX, mouseY, button):
     for button in buttonList:
-        if button.checkCursor(mouseX, mouseY):
+        if button.pressed:
             button.released()
 
 def returnToMainMenu():

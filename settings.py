@@ -1,9 +1,5 @@
 '''
-handle global settings stuff
-
-TO DO:
-Add more settings as stuff is added
-
+handle global settings
 '''
 
 # app information

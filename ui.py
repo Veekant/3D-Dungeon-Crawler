@@ -5,14 +5,8 @@ will have some basic ui here
 
 from pyglet import *
 import settings
-import utilities
 
 black = (0, 0, 0, 255)
-red = (255, 0, 0, 255)
-green = (0, 255, 0, 255)
-blue = (0, 0, 255, 255)
-yellow = (255, 255, 0)
-white = (255, 255, 255, 255)
 
 # basic button class
 class button:
@@ -33,12 +27,10 @@ class button:
         self.press = False
     
     def pressed(self):
-        self.hover = False
         self.press = True
-        pressPlayer = settings.sfxFiles[4].play()
+        settings.sfxFiles[4].play()
 
     def released(self):
-        self.hover = True
         self.press = False
         self.func()
 
@@ -46,11 +38,9 @@ class button:
         if self.hover == False:
             settings.sfxFiles[3].play()
         self.hover = True
-        self.press = False
     
     def unHovered(self):
         self.hover = False
-        self.press = False
 
     def checkCursor(self, mouseX, mouseY):
         return (self.x-self.width//2 <= mouseX <= self.x+self.width//2 and
@@ -70,8 +60,3 @@ class button:
                           anchor_x='center', anchor_y='center',
                           batch=batch)
         return (rect, label)
-
-
-    
-
-    

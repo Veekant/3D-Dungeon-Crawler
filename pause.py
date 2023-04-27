@@ -21,6 +21,7 @@ def reset():
 def onSwitch():
     settings.window.set_exclusive_mouse(False)
     settings.sfxFiles[5].play()
+    settings.musicPlayer.pause()
     reset()
 
 def update(dt):
@@ -74,3 +75,4 @@ def returnToMainMenu():
 def switchTo(state):
     settings.state = state
     buttonList = []
+    settings.musicPlayer.play()

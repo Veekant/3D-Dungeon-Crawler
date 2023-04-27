@@ -1,5 +1,5 @@
 '''
-this file contains basic functions that will be used across files
+basic functions used across files
 '''
 
 # sign function used in raycasting
@@ -8,7 +8,6 @@ def sign(num):
     else: return 1
 
 # normal sign function
-
 def zeroSign(num):
     if num > 0: return 1
     if num < 0: return -1

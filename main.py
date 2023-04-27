@@ -9,24 +9,28 @@ import death
 import win
 import traceback
 
+# retro style graphics
 image.Texture.default_min_filter = gl.GL_LINEAR
 image.Texture.default_mag_filter = gl.GL_LINEAR
 
+# initialize game instance
 game_window = window.Window(fullscreen=True)
 settings.window = game_window
 keys = window.key.KeyStateHandler()
 fps_display = window.FPSDisplay(window=game_window)
-batch = graphics.Batch()
 
 def onAppStart():
     settings.width, settings.height = game_window.get_size()
     game_window.set_exclusive_mouse(True)
 
+    # load map, textures/sprites, sound files
     settings.map = load.loadMap("map2")
     settings.texFiles = load.loadTextures()
     settings.spriteFiles = load.loadSprites()
     settings.sfxFiles = load.loadSFX()
     settings.musicFiles = load.loadMusic()
+
+    # start on main menu
     settings.state = 'main_menu'
     settings.musicPlayer = media.Player()
     main_menu.onSwitch()

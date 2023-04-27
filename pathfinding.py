@@ -1,12 +1,10 @@
 '''
-pathfinding algorithm and helper function implemented here
-
-TO DO: None
+pathfinding algorithm (A Star) and helper functions
 '''
 
 import settings
-import math
 import utilities
+import math
 
 # A* algorithm from:
 # https://www.youtube.com/watch?v=ySN5Wnu88nE

@@ -1,17 +1,12 @@
 '''
-contains player class and a few methods
-
-TO DO:
-add combat features (TP1/2)
+contains player class and associated methods
 '''
 
-from math import *
-from cmu_graphics import *
 import settings
 import utilities
 import gameplay
 import time
-
+from math import *
 
 # rotation matrix from https://en.wikipedia.org/wiki/Rotation_matrix
 

@@ -1,5 +1,5 @@
 '''
-main menu logic here
+creates main menu
 '''
 
 from pyglet import *
@@ -10,17 +10,19 @@ import ui
 
 buttonList = []
 gray = (128, 128, 128, 255)
-startColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
+buttonColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
 
 def reset():
-    startButton = ui.button(settings.width//2, settings.height//2+150, 600, 100, "Start", 50, startColors, startGame)
-    aboutButton = ui.button(settings.width//2, settings.height//2, 600, 100, "About", 50, startColors, openAbout)
-    quitButton = ui.button(settings.width//2, settings.height//2-150, 600, 100, 'Quit', 50, startColors, quitGame)
+    startButton = ui.button(settings.width//2, settings.height//2+150, 600, 100, "Start", 50, buttonColors, startGame)
+    aboutButton = ui.button(settings.width//2, settings.height//2, 600, 100, "About", 50, buttonColors, openAbout)
+    quitButton = ui.button(settings.width//2, settings.height//2-150, 600, 100, 'Quit', 50, buttonColors, quitGame)
     buttonList.extend([startButton, aboutButton, quitButton])
 
 def onSwitch():
     settings.window.set_exclusive_mouse(False)
     musicPlayer = settings.musicPlayer
+    while musicPlayer.playing:
+        musicPlayer.next_source()
     musicPlayer.queue(settings.musicFiles[2])
     musicPlayer.play()
     musicPlayer.volume = 0.25
@@ -57,7 +59,7 @@ def onMousePress(mouseX, mouseY, button):
 
 def onMouseRelease(mouseX, mouseY, button):
     for button in buttonList:
-        if button.checkCursor(mouseX, mouseY):
+        if button.press:
             button.released()
 
 def startGame():
