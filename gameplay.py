@@ -1,5 +1,5 @@
 '''
-might handle some input stuff here
+handles gameplay logic
 '''
 
 from pyglet import *
@@ -15,11 +15,14 @@ import utilities
 import math
 import time
 
+# initializes timer for foostep sound
 footstepSoundTimer = 0
 
 def onSwitch(resetGame):
+    # disable cursor
     settings.window.set_exclusive_mouse(True)
 
+    # play gameplay music
     musicPlayer = settings.musicPlayer
     utilities.stopSound(musicPlayer)
     musicPlayer.queue(settings.musicFiles[3])
@@ -27,9 +30,11 @@ def onSwitch(resetGame):
     musicPlayer.volume = 0.6
     musicPlayer.loop = True
 
+    # if game needs to be reset, reset it
     if resetGame: reset()
 
 def reset():
+    # initialize enemies, sprites, player, and hud
     settings.enemyList = []
     settings.spriteList = []
     settings.player = player.player(4, 22, -math.pi/2)
@@ -38,6 +43,7 @@ def reset():
     spawnEnemies()
 
 def spawnEnemies():
+    # spawns enemies
     zombie1 = gameSprite.enemy(4, 16, 4, 400, 6)
     zombie2 = gameSprite.enemy(6, 3, 4, 400, 6)
     zombie3 = gameSprite.enemy(11, 20, 4, 400, 6)
@@ -50,39 +56,48 @@ def spawnEnemies():
     druid1 = gameSprite.enemy(11, 14, 2, 400, 2)
 
 def onKeyPress(key):
+    # pauses game
     if key == 'P':
         pauseGame()
+    # shortcuts for winning and dying
     elif key == 'N':
         winGame()
     elif key == 'M':
         die()
 
 def onKeyHold(keys, dt):
+    # gets movement dir from input
     dir = [0, 0]
     if keys[window.key.W]: dir[1] = 1
     elif keys[window.key.S]: dir[1] = -1
     if keys[window.key.A]: dir[0] = 1
     elif keys[window.key.D]: dir[0] = -1
 
+    # if player wants to move
     if dir != [0, 0]:
         # get dir vector and scale for velocity
         normDir = utilities.normalizeVector(dir)
         dr = settings.speed * dt
         dir = utilities.vecMultiply(dr, normDir)
+        # move in direction
         move(dir[0], dir[1])
 
 def onMouseMove(mouseX, mouseY, dx, dy):
+    # calculate amount to rotate by
     dTheta = settings.sensitivity * math.atan2(dx/settings.width, 1)
+    # rotate player
     rotate(dTheta)
 
 def onMousePress(mouseX, mouseY, button, modifiers):
     if button == window.mouse.LEFT:
         settings.player.attacking = True
+        # play attack sound
         swordSound = settings.sfxFiles[7].play()
         swordSound.volume = 0.5
         attack()
 
 def onMouseRelease(mouseX, mouseY, button):
+    # if player releases attack button while attacking, reset status
     if button == window.mouse.LEFT and settings.player.attacking:
         settings.player.attacking = False
 
@@ -92,10 +107,13 @@ def onDraw():
 
 def update(dt, keys):
     onKeyHold(keys, dt)
+    # update enemies
     for enemy in settings.enemyList:
         enemy.update(dt)
+    # if gameOver, end game
     if settings.gameOver:
         die()
+    # if all enemies defeated, win game
     if len(settings.enemyList) == 0:
         winGame()
 

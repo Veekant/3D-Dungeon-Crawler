@@ -1,11 +1,8 @@
 '''
-This file will handle the bulk of the world rendering
-
-TO DO:
-texture rendering (TP3)
-floor/ceiling rendering (TP3)
-
+renders gameplay (raycasting with sprites)
+uses textures for walls
 '''
+
 from pyglet import *
 import settings
 import utilities

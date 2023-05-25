@@ -1,11 +1,11 @@
 '''
-will have some basic ui here
-(might be just buttons tbh)
+handles ui elements (buttons)
 '''
 
 from pyglet import *
 import settings
 
+# def colors
 black = (0, 0, 0, 255)
 
 # basic button class
@@ -25,7 +25,9 @@ class button:
 
         self.hover = False
         self.press = False
-    
+
+    # methods for interactivity
+
     def pressed(self):
         self.press = True
         settings.sfxFiles[4].play()
@@ -47,13 +49,16 @@ class button:
                 self.y-self.height//2 <= mouseY <= self.y+self.height//2)
     
     def draw(self, batch):
+        # gets color
         if self.press: color = self.pressColor
         elif self.hover: color = self.hoverColor
         else: color = self.color
+        # draws rectangle
         rect = shapes.BorderedRectangle(self.x, self.y, self.width, self.height,
                                         border=2, color=color, border_color=black,
                                         batch=batch)
         rect.anchor_position = self.width//2, self.height//2
+        # draws button text
         label = text.Label(self.text, font_name='Century Gothic',
                           font_size=self.textSize, bold=True,
                           x=self.x, y=self.y,

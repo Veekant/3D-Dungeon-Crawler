@@ -1,13 +1,11 @@
 '''
-minimap implementation
-
-TO DO:
-draw enemies and npcs to map (TP2)
+minimap, health bar, and sword implementation
 '''
 
 from pyglet import *
 import settings
 
+# defines colors
 black = (0, 0, 0, 255)
 red = (255, 0, 0, 255)
 green = (0, 255, 0, 255)
@@ -15,7 +13,7 @@ blue = (0, 0, 255, 255)
 yellow = (255, 255, 0)
 white = (255, 255, 255, 255)
 
-# minimap inspired by CS Academy (Tetris) but with a few adjustments
+# minimap inspired by CS Academy (Tetris) but changed to work with Pyglet
 class minimap:
 
     def __init__(self, left, bottom, width, height):
@@ -65,32 +63,38 @@ class minimap:
         dirX, dirY = posX + 2*scale * player.dirX, posY - 2*scale * player.dirY
         posLX, posLY = posX - scale * player.planeX, posY + scale * player.planeY
         posRX, posRY = posX + scale * player.planeX, posY - scale * player.planeY
+        # draws triangle at players pos
         playerIndicator = shapes.Triangle(dirX, dirY, posLX, posLY, posRX, posRY,
                                           color=black, batch=batch)
         return playerIndicator
 
-    # draws every enemy as a red circle on the map
+    # draws every enemy on map
     def drawEnemies(self, batch):
         enemyDotList = []
         enemyList = settings.enemyList
+        # for each enemy
         for sprite in enemyList:
+            # get pos and draw red circle there
             spriteX, spriteY = self.convertToBoardCoords(sprite.x, sprite.y)
             enemyDot = shapes.Circle(spriteX, spriteY, 0.15*self.tileWidth, 
                                      color=red, batch=batch)
             enemyDotList.append(enemyDot)
         return enemyDotList
-        
+    
+    # draws map
     def drawMap(self, batch):
         map = settings.map
         border = self.drawBorder(batch)
         tileList = []
+        # draws each tile
         for col in range(self.cols):
             for row in range(self.rows):
                 color = blue if map[col][row] > 0 else white
                 tile = self.drawTile(batch, col, row, color)
                 tileList.append(tile)
         return border, tileList
-
+    
+    # draws map, player, and enemies
     def draw(self, batch):
         border, tileList = self.drawMap(batch)
         playerIndicator = self.drawPlayer(batch)
@@ -121,7 +125,7 @@ class statusBars:
         # get bar heights
         maxBarHeight = self.height-self.textSize
         barHeight = (val/maxVal)*maxBarHeight
-        # bruh
+        # draws pyglet shapes
         label = text.Label(self.labels[pos], font_name='Times New Roman',
                           font_size=self.textSize, bold=True,
                           x=left+self.barWidth//2, y=self.bottom+2,
@@ -152,10 +156,12 @@ class statusBars:
             barList.append(bar)
         return barList
 
+# draw cool sword
 def drawSword(batch, attacking):
-    # draw cool sword thing
+    # get sword file
     swordImg = settings.spriteFiles[7]
     swordImg.anchor_x, swordImg.anchor_y = swordImg.width//2, 0
+    # change rotation, size, and pos based on attack status
     if attacking:
         posX = settings.width // 3
         posY = -90
@@ -166,11 +172,13 @@ def drawSword(batch, attacking):
         posY = -100
         rotation = 10
         scale = 1.2
+    # draw sword
     swordSprite = sprite.Sprite(swordImg, posX, posY, batch=batch)
     swordSprite.scale = scale
     swordSprite.rotation = rotation
     return swordSprite
 
+# draws every hud element
 def draw():
     hudBatch = graphics.Batch()
     sword = drawSword(hudBatch, settings.player.attacking)

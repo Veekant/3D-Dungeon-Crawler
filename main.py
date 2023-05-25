@@ -37,6 +37,10 @@ def onAppStart():
     settings.musicPlayer = media.Player()
     main_menu.onSwitch()
 
+'''
+the following functions call functions from different files depending on game state
+it's basically a janky state machine
+'''
 @game_window.event
 def on_draw():
     game_window.clear()

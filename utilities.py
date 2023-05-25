@@ -32,6 +32,7 @@ def vecMultiply(scalar, vec):
 def dotProduct(vec1, vec2):
      return vec1[0] * vec2[0] + vec1[1] * vec2[1]
 
+# stops sounds from playing
 def stopSound(player):
      while player.playing:
           player.next_source()

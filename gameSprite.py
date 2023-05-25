@@ -1,12 +1,7 @@
 '''
-will work on npc(enemies and friendly) stuff here
-
-TO DO:
-flesh out npc studff
-add health, damage stuff
-pathfinding
-conversations
+contains sprite and enemy classes
 '''
+
 import settings
 import pathfinding
 import utilities
@@ -52,8 +47,11 @@ class enemy(sprite):
 
     def update(self, dt):
         player = settings.player
+        # handle movement
         self.moveToPlayer(player, dt)
+        # handle attacking
         self.attack(player, dt)
+        # handle sound
         self.playSnarl()
 
     def moveToPlayer(self, player, dt):
@@ -73,8 +71,10 @@ class enemy(sprite):
 
     # moves in direction of point
     def moveToPoint(self, point, dt):
+        # get location and dist vectors
         x, y = point[0], point[1]
         distX, distY = (x - self.x), (y - self.y)
+        # normalize vector and scale
         dirX, dirY = utilities.normalizeVector((distX, distY))
         dx = settings.enemySpeed * dt * dirX
         dy = settings.enemySpeed * dt * dirY  
@@ -91,7 +91,8 @@ class enemy(sprite):
             if time.time() - self.attackTimer >= settings.enemyAttackCooldown: 
                 player.attacked(self)
                 self.attackTimer = time.time()
-
+    
+    # snarls at player if targeting and enough time has elapsed
     def playSnarl(self):
         currentTime = time.time()
         if self.pathfinding and currentTime-self.snarlTimer > settings.enemySnarlFrequency:
