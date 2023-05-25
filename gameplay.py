@@ -21,6 +21,7 @@ def onSwitch(resetGame):
     settings.window.set_exclusive_mouse(True)
 
     musicPlayer = settings.musicPlayer
+    utilities.stopSound(musicPlayer)
     musicPlayer.queue(settings.musicFiles[3])
     musicPlayer.play()
     musicPlayer.volume = 0.6
@@ -42,9 +43,9 @@ def spawnEnemies():
     zombie3 = gameSprite.enemy(11, 20, 4, 400, 6)
     zombie4 = gameSprite.enemy(15, 20, 4, 400, 6)
 
-    skeleton1 = gameSprite.enemy(9, 12, 2, 400, 5)
+    skeleton1 = gameSprite.enemy(4, 12, 2, 400, 5)
     skeleton2 = gameSprite.enemy(8, 20, 2, 400, 5)
-    skeleton3 = gameSprite.enemy(3, 14, 2, 400, 5)
+    skeleton3 = gameSprite.enemy(22, 15, 2, 400, 5)
 
     druid1 = gameSprite.enemy(11, 14, 2, 400, 2)
 
