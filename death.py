@@ -7,6 +7,7 @@ import settings
 import gameplay
 import main_menu
 import ui
+import utilities
 
 buttonList = []
 labelWidth = 10
@@ -24,7 +25,10 @@ def reset():
 
 def onSwitch():
     settings.window.set_exclusive_mouse(False)
-    settings.musicFiles[0].play()
+    musicPlayer = settings.musicPlayer
+    utilities.stopSound(musicPlayer)
+    musicPlayer.queue(settings.musicFiles[0])
+    musicPlayer.play()
     reset()
 
 def update(dt):

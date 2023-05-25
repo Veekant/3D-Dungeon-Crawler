@@ -6,6 +6,7 @@ from pyglet import *
 import settings
 import main_menu
 import ui
+import utilities
 
 buttonList = []
 green = (0, 255, 0, 255)
@@ -18,7 +19,10 @@ def reset():
 
 def onSwitch():
     settings.window.set_exclusive_mouse(False)
-    settings.musicFiles[1].play()
+    musicPlayer = settings.musicPlayer
+    utilities.stopSound(musicPlayer)
+    musicPlayer.queue(settings.musicFiles[1])
+    musicPlayer.play()
     reset()
 
 def onDraw():

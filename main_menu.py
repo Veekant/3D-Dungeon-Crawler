@@ -7,6 +7,7 @@ import settings
 import gameplay
 import aboutPage
 import ui
+import utilities
 
 buttonList = []
 gray = (128, 128, 128, 255)
@@ -24,8 +25,7 @@ def reset():
 def onSwitch():
     settings.window.set_exclusive_mouse(False)
     musicPlayer = settings.musicPlayer
-    while musicPlayer.playing:
-        musicPlayer.next_source()
+    utilities.stopSound(musicPlayer)
     musicPlayer.queue(settings.musicFiles[2])
     musicPlayer.play()
     musicPlayer.volume = 0.25

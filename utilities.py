@@ -2,6 +2,8 @@
 basic functions used across files
 '''
 
+import settings
+
 # sign function used in raycasting
 def sign(num):
     if num < 0: return -1
@@ -31,3 +33,7 @@ def vecMultiply(scalar, vec):
 # takes the dot product of two vectors
 def dotProduct(vec1, vec2):
      return vec1[0] * vec2[0] + vec1[1] * vec2[1]
+
+def stopSound(player):
+     while player.playing:
+          player.next_source()
