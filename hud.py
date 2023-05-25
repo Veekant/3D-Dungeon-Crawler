@@ -5,7 +5,6 @@ TO DO:
 draw enemies and npcs to map (TP2)
 '''
 
-from cmu_graphics import *
 from pyglet import *
 import settings
 

@@ -2,8 +2,6 @@
 basic functions used across files
 '''
 
-import settings
-
 # sign function used in raycasting
 def sign(num):
     if num < 0: return -1

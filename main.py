@@ -20,9 +20,9 @@ keys = window.key.KeyStateHandler()
 fps_display = window.FPSDisplay(window=game_window)
 
 def onAppStart():
+    # window setup
     settings.width, settings.height = game_window.get_size()
     settings.uiScale = settings.height / 1080
-    print(settings.width, settings.height)
     game_window.set_exclusive_mouse(True)
 
     # load map, textures/sprites, sound files
