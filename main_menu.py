@@ -13,9 +13,12 @@ gray = (128, 128, 128, 255)
 buttonColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
 
 def reset():
-    startButton = ui.button(settings.width//2, settings.height//2+150, 600, 100, "Start", 50, buttonColors, startGame)
-    aboutButton = ui.button(settings.width//2, settings.height//2, 600, 100, "About", 50, buttonColors, openAbout)
-    quitButton = ui.button(settings.width//2, settings.height//2-150, 600, 100, 'Quit', 50, buttonColors, quitGame)
+    startButton = ui.button(settings.width//2, settings.height//2+(150*settings.uiScale), 
+                            600, 100, "Start", 50, buttonColors, startGame)
+    aboutButton = ui.button(settings.width//2, settings.height//2,
+                            600, 100, "About", 50, buttonColors, openAbout)
+    quitButton = ui.button(settings.width//2, settings.height//2-(150*settings.uiScale),
+                           600, 100, 'Quit', 50, buttonColors, quitGame)
     buttonList.extend([startButton, aboutButton, quitButton])
 
 def onSwitch():
@@ -36,7 +39,7 @@ def onDraw():
     batch = graphics.Batch()
     titleLabel = text.Label("3D Dungeon Crawler", font_name='Century Gothic',
                           font_size=96, bold=True, color=gray,
-                          x=settings.width//2, y=settings.height-150,
+                          x=settings.width//2, y=settings.height-(150*settings.uiScale),
                           anchor_x='center', anchor_y='center',
                           batch=batch)
 

@@ -51,6 +51,8 @@ def spawnEnemies():
 def onKeyPress(key):
     if key == 'P':
         pauseGame()
+    elif key == 'N':
+        winGame()
     elif key == 'M':
         die()
 

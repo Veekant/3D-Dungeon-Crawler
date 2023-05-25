@@ -12,7 +12,8 @@ gray = (128, 128, 128, 255)
 buttonColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
 
 def reset():
-    mainMenuButton = ui.button(settings.width//2, settings.height//2-400, 600, 100, 'Main Menu', 50, buttonColors, returnToMainMenu)
+    mainMenuButton = ui.button(settings.width//2, settings.height//2-(400*settings.uiScale),
+                               600, 100, 'Main Menu', 50, buttonColors, returnToMainMenu)
     buttonList.append(mainMenuButton)
 
 def onSwitch():
@@ -26,27 +27,27 @@ def onDraw():
     batch = graphics.Batch()
     label1 = text.Label('Use the mouse to look around.', font_name='Century Gothic',
                           font_size=30, color=gray,
-                          x=settings.width//2, y=settings.height//2 + 150,
+                          x=settings.width//2, y=settings.height//2 + (150*settings.uiScale),
                           anchor_x='center', anchor_y='center',
                           batch=batch)
     label2 = text.Label('Use WASD to move.', font_name='Century Gothic',
                           font_size=30, color=gray,
-                          x=settings.width//2, y=settings.height//2 + 110,
+                          x=settings.width//2, y=settings.height//2 + (110*settings.uiScale),
                           anchor_x='center', anchor_y='center',
                           batch=batch)
     label3 = text.Label('Click to attack.', font_name='Century Gothic',
                           font_size=30, color=gray,
-                          x=settings.width//2, y=settings.height//2 + 70,
+                          x=settings.width//2, y=settings.height//2 + (70*settings.uiScale),
                           anchor_x='center', anchor_y='center',
                           batch=batch)
     label4 = text.Label('Defeat all enemies to win.', font_name='Century Gothic',
                           font_size=30, color=gray,
-                          x=settings.width//2, y=settings.height//2 + 30,
+                          x=settings.width//2, y=settings.height//2 + (30*settings.uiScale),
                           anchor_x='center', anchor_y='center',
                           batch=batch)
     label5 = text.Label('Good luck!', font_name='Century Gothic',
                           font_size=30, color=gray,
-                          x=settings.width//2, y=settings.height//2 - 50,
+                          x=settings.width//2, y=settings.height//2 - (50*settings.uiScale),
                           anchor_x='center', anchor_y='center',
                           batch=batch)
 

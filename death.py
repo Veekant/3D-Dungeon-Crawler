@@ -16,7 +16,8 @@ red = (255, 0, 0, 255)
 buttonColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
 
 def reset():
-    mainMenuButton = ui.button(settings.width//2, settings.height//2-100, 600, 100, 'Main Menu', 50, buttonColors, returnToMainMenu)
+    mainMenuButton = ui.button(settings.width//2, settings.height//2-(100*settings.uiScale),
+                               600, 100, 'Main Menu', 50, buttonColors, returnToMainMenu)
     buttonList.append(mainMenuButton)
     global labelWidth
     labelWidth = 10
@@ -37,13 +38,13 @@ def onDraw():
     batch = graphics.Batch()
     blurScreen = shapes.Rectangle(0, 0, settings.width, settings.height,
                                   color=blurColor, batch=batch)
-    blurLabel = shapes.Rectangle(settings.width//2, settings.height-400,
+    blurLabel = shapes.Rectangle(settings.width//2, settings.height-(400*settings.uiScale),
                                  labelWidth, 150,
                                  color=blurColor2, batch=batch)
     blurLabel.anchor_position = labelWidth//2, 75
     deathLabel = text.Label("YOU DIED", font_name='Century Gothic',
                           font_size=72, bold=True, color=red,
-                          x=settings.width//2, y=settings.height-400,
+                          x=settings.width//2, y=settings.height-(400*settings.uiScale),
                           anchor_x='center', anchor_y='center',
                           batch=batch)
     buttonDrawables = []

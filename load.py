@@ -72,6 +72,6 @@ def loadMusic():
     trackList = []
     for fileName in musicFileNames:
         fullFileName = fileName + '.mp3'
-        musicFile = musicLoader.media(fullFileName)
+        musicFile = musicLoader.media(fullFileName, streaming=False)
         trackList.append(musicFile)
     return trackList

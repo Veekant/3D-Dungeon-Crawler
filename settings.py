@@ -6,6 +6,7 @@ handle global settings
 window = None
 width = None
 height = None
+uiScale = None
 fps = 60
 
 # object information

@@ -12,7 +12,8 @@ green = (0, 255, 0, 255)
 buttonColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
 
 def reset():
-    mainMenuButton = ui.button(settings.width//2, settings.height//2-100, 600, 100, 'Main Menu', 50, buttonColors, returnToMainMenu)
+    mainMenuButton = ui.button(settings.width//2, settings.height//2-(100*settings.uiScale),
+                               600, 100, 'Main Menu', 50, buttonColors, returnToMainMenu)
     buttonList.append(mainMenuButton)
 
 def onSwitch():
@@ -24,7 +25,7 @@ def onDraw():
     batch = graphics.Batch()
     winLabel = text.Label("YOU WIN", font_name='Century Gothic',
                           font_size=72, bold=True, color=green,
-                          x=settings.width//2, y=settings.height-400,
+                          x=settings.width//2, y=settings.height-(400*settings.uiScale),
                           anchor_x='center', anchor_y='center',
                           batch=batch)
     buttonDrawables = []

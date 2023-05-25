@@ -14,8 +14,10 @@ gray = (128, 128, 128, 255)
 startColors = [(255, 0, 0, 255), (225, 0, 0, 255), (195, 0, 0, 255)]
 
 def reset():
-    unpauseButton = ui.button(settings.width//2, settings.height//2, 600, 100, "Unpause", 50, startColors, unpauseGame)
-    mainMenuButton = ui.button(settings.width//2, settings.height//2-150, 600, 100, 'Main Menu', 50, startColors, returnToMainMenu)
+    unpauseButton = ui.button(settings.width//2, settings.height//2,
+                              600, 100, "Unpause", 50, startColors, unpauseGame)
+    mainMenuButton = ui.button(settings.width//2, settings.height//2-(150*settings.uiScale),
+                               600, 100, 'Main Menu', 50, startColors, returnToMainMenu)
     buttonList.extend([unpauseButton, mainMenuButton])
 
 def onSwitch():
@@ -38,7 +40,7 @@ def onDraw():
                                   color=blurColor, batch=batch)
     pauseLabel = text.Label("Paused", font_name='Century Gothic',
                           font_size=72, bold=True, color=gray,
-                          x=settings.width//2, y=settings.height-400,
+                          x=settings.width//2, y=settings.height-(400*settings.uiScale),
                           anchor_x='center', anchor_y='center',
                           batch=batch)
     buttonDrawables = []
@@ -60,7 +62,7 @@ def onMousePress(mouseX, mouseY, button):
 
 def onMouseRelease(mouseX, mouseY, button):
     for button in buttonList:
-        if button.checkCursor(mouseX, mouseY):
+        if button.pressed:
             button.released()
 
 def unpauseGame():
